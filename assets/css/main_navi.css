@@ -1,0 +1,179 @@
+.main_navigation {
+	width: 230px;
+	background: #333333;
+	background: linear-gradient(to right,#3a3633 93%,#2a2725 100%);
+	height: 100%;
+	float: left;
+	position: relative;
+	z-index: 3;
+	color: #a8a8a8;
+	z-index: 5;
+}
+
+.mobile_top_bar {
+   display: none;
+}
+
+.mobile_top_bar .mobile_navi_icon {
+   float: right;
+   margin-right: 12px;
+   margin-top: 14px;
+   background-image:url(../img/mobile_navi_icon_white.png);
+   height: 25px;
+   width: 25px;
+   opacity: 0.8;
+}
+
+.main_navigation .navi_el {
+   margin-bottom: 5px;
+   position: relative;
+}
+
+.main_navigation .navi_el .title {
+   padding: 8px;
+   font-size: 15px;
+   cursor: pointer;
+   transition: all 200ms;
+}
+
+.main_navigation .navi_el:hover .title {
+   color: #EDEDED;
+}
+
+.main_navigation .navi_el .title .icon {
+   height: 16px;
+   float: left;
+   margin-top: 2px;
+   margin-right: 10px;
+   display: inline;
+}
+
+.main_navigation .navi_el .title .subnavi_toggle {
+   background: url(../img/toggle.png);
+   background-size: 15px;
+   height: 15px;
+   width: 15px;
+   float: right;
+   margin-top: 4px;
+   margin-right: 2px;
+   opacity: 0.5;
+   transition: all 200ms;
+}
+
+.main_navigation .navi_el .title:hover .subnavi_toggle {
+   opacity: 1;
+}
+
+.main_navigation .navi_el.open .subnavi_toggle {
+   background-position: center bottom;
+}
+
+.main_navigation .navi_el .subnavi {
+   display: none;
+   padding-left: 25px;
+   font-size: 14px;
+   height: 0px;
+   overflow: hidden;
+   transition: all 2000ms;
+   background-color: rgba(255,255,255,0.1);
+   background-image: url(../img/subnavi_lines.png);
+   background-repeat: repeat-y;
+   background-position: 20px -14px;
+}
+
+.main_navigation .navi_el .subnavi a {
+   color: #a8a8a8;
+   text-decoration: none;
+   transition: all 200ms;
+}
+
+.main_navigation .navi_el .subnavi a:hover {
+   text-decoration: none;
+   color: #EDEDED;
+}
+
+.main_navigation .navi_el.open .subnavi {
+   display: block;
+   height: auto;
+}
+
+.main_navigation .navi_el .subnavi .subnavi_el {
+   padding: 8px;
+   padding-bottom: 6px;
+   padding-left: 12px;
+}
+
+.main_navigation .navi_el .subnavi .subnavi_el:hover {
+   color: #EDEDED;
+}
+
+/* Aktives Element */
+.main_navigation .navi_el.active {
+   background-image: url(../img/main_navi_active.png);
+   background-repeat: no-repeat;
+   background-position: right -1px top;
+   background-position-y: 10px;
+}
+
+.main_navigation .navi_el.active .subnavi {
+   display: block;
+   height: auto;
+}
+
+.main_navigation .navi_el.active .subnavi_toggle {
+   display: none;
+}
+
+.main_navigation .navi_el.active:hover .subnavi_toggle {
+   display: none;
+}
+
+.main_navigation .navi_el.active .title {
+   color: #fff;
+}
+
+/* MOBILE VIEW */
+@media(max-width: 1000px){
+   .main_navigation {
+      width: 100%;
+      height: auto;
+      position: fixed;
+      z-index: 10;
+      padding-top: 55px; /* höhe der mobile-top-bar */
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+      display: none;
+   }
+   
+   .main_navigation.opened {
+      display: block;
+   }
+   
+   .main_navigation .navi_el .title, .main_navigation .navi_el:hover .title {
+      color: #696969;
+   }
+   
+   .main_navigation .navi_el.active .title {
+      color: #000;
+   }
+   
+   .main_navigation .navi_el .subnavi a {
+      color: #797878;
+      text-decoration: none;
+      transition: all 200ms;
+   }
+
+   .main_navigation .navi_el .subnavi a:hover {
+      text-decoration: none;
+      color: #797878;
+   }
+   
+   .mobile_top_bar {
+      width: 100%;
+      height: 55px;
+      position: fixed;
+      background: #3a3633;
+      display: block;
+      z-index: 11;
+   }
+}

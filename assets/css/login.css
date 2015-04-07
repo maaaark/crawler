@@ -1,0 +1,24 @@
+.login_box {
+   width: 500px;
+   height: auto;
+   box-shadow: 0 0 3 px 1px rgab(0,0,0,0.6);
+   margin: auto;
+   position: relative;
+   top: 20%;
+   background: #fff;
+   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+   display: none;
+}
+
+.login_box .login_title {
+   background-color: #333;
+   padding: 8px;
+   color: #bbb;
+   font-size: 16px;
+   font-weight: 300;
+   cursor: default;
+}
+
+.login_box .login_content {
+   padding: 15px;
+}

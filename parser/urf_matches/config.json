@@ -1,0 +1,9 @@
+{
+   "name":     "Ultra Rapid Fire",
+   "roles":    ["SUPERADMIN"],
+   "subnavi":  [
+      { "label": "&Uuml;bersicht", "link": "?parser=urf_matches" },
+      { "label": "Normaler Parser", "link": "?parser=urf_matches&normal_parser" },
+      { "label": "Reverse Parser", "link": "?parser=urf_matches&reverse_parser" }
+   ]
+}

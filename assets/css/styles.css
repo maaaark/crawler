@@ -1,0 +1,45 @@
+.main_box {
+   margin-top: 20px;
+   margin-bottom: 20px;
+   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.main_box .box_title {
+   border: 1px solid #45474b;
+   background: #4c4f53;
+   color: #fff;
+   padding: 10px;
+}
+
+.main_box .box_content {
+   background: #fff;
+   padding: 15px;
+}
+
+
+/* Message DIVs */
+.message {
+   padding: 10px;
+   border-left: 5px solid #9cb4c5;
+   background: #d6dde7;
+   color: #305d8c;
+   margin-bottom: 15px;
+}
+
+.message.green {
+   border-color: #8ac38b;
+   color: #356635;
+   background-color: #cde0c4;
+}
+
+.message.orange {
+   border-color: #dfb56c;
+   color: #826430;
+   background-color: #efe1b3;
+}
+
+.message.red {
+   border-color: #953b39;
+   color: #fff;
+   background-color: #c26565;
+}
