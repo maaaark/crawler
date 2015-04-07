@@ -62,3 +62,19 @@ button:active, input[type=button]:active, input[type=submit]:active, input[type=
 .form-footer button, .form-footer input[type=button], .form-footer input[type=submit], .form-footer input[type=reset] {
    float: right;
 }
+
+textarea {
+   padding: 8px;
+   outline: none;
+   border: 1px solid rgba(0,0,0,0.3);
+   box-shadow: none;
+   font-family: 'Open Sans';
+   font-size: 14px;
+   width: 100%;
+   min-height: 200px;
+   box-sizing: border-box;
+}
+
+textarea:focus {
+   border: 1px solid rgba(0,0,0,0.5);
+}

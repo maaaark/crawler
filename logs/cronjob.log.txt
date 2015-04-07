@@ -1,0 +1,9 @@
+14:40:56 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:01 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:02 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:02 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:02 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:03 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:03 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:03 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+14:41:03 07.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen

@@ -134,6 +134,19 @@ class Template {
         if(defined("CURRENT_MODULE") && trim(CURRENT_MODULE) != ""){
            $this->assign("CURRENT_MODULE", trim(CURRENT_MODULE));
         }
+
+        $get_vars = array();
+        if(isset($_GET) && count($_GET) > 0){
+            $get_vars = $_GET;
+        }
+
+        foreach($get_vars as $column => $value){
+            if(isset($value) && $value){
+                $this->assign("REQUEST.".strtoupper($column), $value);
+            } else {
+                $this->assign("REQUEST.".strtoupper($column), "false");
+            }
+        }
     }
     
     private function addParserConfig(){
@@ -160,7 +173,7 @@ class Template {
                  $out    = "";
                  $config = json_decode(file_get_contents("parser/".$folder."/config.json"), true);
                  
-                 $icon   = "<img src='".DOMAIN."/assets/img/parser_icon.png' class='icon'/>";
+                 $icon   = '<i class="fa fa-database"></i>';
                  
                  $class_add = "";
                  if(defined("CURRENT_MODULE") && trim(CURRENT_MODULE) == trim($folder)){
