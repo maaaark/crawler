@@ -132,6 +132,29 @@
    color: #fff;
 }
 
+.main_navigation a {
+   color: #a8a8a8;
+   text-decoration: none;
+   transition: all 200ms;
+}
+
+.main_navigation a:hover {
+   text-decoration: none;
+   color: #EDEDED;
+}
+
+.main_navigation .main_title {
+   color: #fff;
+   font-weight: 600;
+   border-bottom: 1px solid #525151;
+   padding: 7px;
+   margin-bottom: 5px;
+}
+
+.main_navigation .title .fa {
+   margin-right: 5px;
+}
+
 /* MOBILE VIEW */
 @media(max-width: 1000px){
    .main_navigation {
@@ -175,5 +198,10 @@
       background: #3a3633;
       display: block;
       z-index: 11;
+   }
+
+   .main_navigation .main_title {
+      color: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(0,0,0,0.3);
    }
 }

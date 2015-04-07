@@ -7,6 +7,8 @@ if(isset($_SESSION["user_id"])){
       logout();
       addInstantMessage("Erfolgreich ausgeloggt.", "green");
       header("Location: index.php");
+   } elseif(isset($_GET["logs"])){
+      require_once 'system/logs_handler/index.php';
    } else {
       if(isset($_GET["parser"])){
          if(file_exists("parser/".trim($_GET["parser"])."/init.php")){
@@ -23,6 +25,7 @@ if(isset($_SESSION["user_id"])){
          $template = new template;
          $template->load("index");
          $template->assign("SITE_TITLE", "Dashboard");
+         $template->assign("IS_INDEX", true);
          $tmpl = $template->display(true);
          $tmpl = $template->operators();
          echo $tmpl;
