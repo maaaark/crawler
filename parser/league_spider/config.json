@@ -2,6 +2,6 @@
    "name":     "League Spider",
    "roles":    ["SUPERADMIN"],
    "subnavi":  [
-      { "label": "&Uuml;bersicht", "link": "#" }
+      { "label": "&Uuml;bersicht", "link": "?parser=league_spider" }
    ]
 }
