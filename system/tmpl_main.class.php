@@ -139,13 +139,16 @@ class Template {
         if(isset($_GET) && count($_GET) > 0){
             $get_vars = $_GET;
         }
-
         foreach($get_vars as $column => $value){
             if(isset($value) && $value){
                 $this->assign("REQUEST.".strtoupper($column), $value);
             } else {
                 $this->assign("REQUEST.".strtoupper($column), "false");
             }
+        }
+        
+        if(isset($_SESSION["username"])){
+            $this->assign("LOGGED_USERNAME", $_SESSION["username"]);
         }
     }
     
