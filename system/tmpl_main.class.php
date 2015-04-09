@@ -130,6 +130,7 @@ class Template {
     public function loadBasics(){
         $this->assign("ROOT", ROOT);
         $this->assign("DOMAIN", DOMAIN);
+        $this->assign("CURRENT_LOL_VERSION", CURRENT_LOL_VERSION);
         
         if(defined("CURRENT_MODULE") && trim(CURRENT_MODULE) != ""){
            $this->assign("CURRENT_MODULE", trim(CURRENT_MODULE));

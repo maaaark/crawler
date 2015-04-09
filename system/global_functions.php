@@ -32,6 +32,10 @@ function addInstantMessage($message, $type = "normal"){
    return true;
 }
 
+function format_number($number){
+   return number_format($number, 0, ",", ".");
+}
+
 function make_seed(){ 
    list($usec , $sec) = explode (' ', microtime()); 
    return (float) $sec + ((float) $usec * 100000); 

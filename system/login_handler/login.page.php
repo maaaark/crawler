@@ -23,7 +23,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
    $template = new template;
    $template->load("login");
    $template->assign("SITE_TITLE", "Login");
-   $tmpl = $template->display();
+   $tmpl = $template->display(true, "design_login");
    $tmpl = $template->operators();
    echo $tmpl;
 }

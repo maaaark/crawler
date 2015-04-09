@@ -9,6 +9,7 @@
    <link rel="stylesheet" type="text/css" href="{DOMAIN}/assets/css/styles.css">
 
 	<script type="text/javascript" src="{DOMAIN}/assets/js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="{DOMAIN}/assets/js/jquery.tablesorter.js"></script>
 	<script>
       $(document).ready(function(){
          $(".main_navigation .navi_el.subnavi .title").click(function(){

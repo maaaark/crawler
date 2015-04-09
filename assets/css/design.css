@@ -77,3 +77,65 @@ h2 {
 	font-weight: 300;
 	color: #4c4f53;
 }
+
+table.table {
+   background-color: #fff;
+   width: 100%;
+   border-collapse: collapse;
+   font-size: 14px;
+}
+
+table.table td {
+   padding: 10px;
+   border: 1px solid #ddd;
+}
+
+table.table th {
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-bottom: 2px solid #ddd;
+   font-weight: bold;
+   text-align: left;
+}
+
+table.table td.row_id {
+   font-size: 10px;
+   color: #898989;
+   text-align: center;
+}
+
+@media(max-width: 1000px){
+   table.table {
+      font-size: 12px;
+   }
+   
+   table.table td {
+      padding: 5px;
+   }
+   
+   table.table th {
+      padding: 5px;
+   }
+   
+   .no_mobile {
+      display: none;
+   }
+}
+
+.table.sort_table thead th {
+   cursor: pointer;
+}
+
+.table.sort_table thead th.headerSortUp, .table thead th.headerSortDown {
+	background-color: rgba(0,0,0,0.05);
+	background-position: right 8px center;
+	background-repeat: no-repeat;
+}
+
+.table.sort_table thead th.headerSortUp {
+	background-image: url(../img/table_sort/table_sort_asc.gif);
+}
+
+.table.sort_table thead th.headerSortDown {
+	background-image: url(../img/table_sort/table_sort_desc.gif);
+}
