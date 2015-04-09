@@ -12,3 +12,28 @@
 		Bekannte Summoners: {POSSIBLE_SUMMONERS}
 	</div>
 </div>
+
+<h2>Champion-Daten von Patch {LEAGUE_SPIDER_GAME_VERSION}</h2>
+{if CHAMPIONS_LIST}
+<table class="table sort_table" id="champion_league_spider_table">
+   <thead>
+      <th class="no_mobile">ID</th>
+      <th>Champion</th>
+      <th>Spiele</th>
+      <th class="no_mobile">Wins</th>
+      <th>Winrate</th>
+      <th>Kills / Tode / Assists</th>
+      <th>Lasthits</th>
+      <th>Gold <span class="no_mobile">gesammelt</span></th>
+   </thead>
+   <tbody>
+      {CHAMPIONS_LIST}
+   </tbody>
+</table>
+
+<script>
+   $(document).ready(function(){
+      $("#champion_league_spider_table").tablesorter({sortList: [[1,0]]});
+   });
+</script>
+{/if}

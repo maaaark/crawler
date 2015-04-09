@@ -22,13 +22,7 @@ if(isset($_SESSION["user_id"])){
             echo $tmpl;
          }
       } else {
-         $template = new template;
-         $template->load("index");
-         $template->assign("SITE_TITLE", "Dashboard");
-         $template->assign("IS_INDEX", true);
-         $tmpl = $template->display(true);
-         $tmpl = $template->operators();
-         echo $tmpl;
+         require_once 'system/dashboard_handler/dashboard.page.php';
       }
    }
 } else {

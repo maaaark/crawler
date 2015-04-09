@@ -5,8 +5,9 @@ input[type=text], input[type=password], input[type=email] {
    box-shadow: none;
    font-family: 'Open Sans';
    font-size: 14px;
-   width: 300px;
+   width: 100%;
    box-sizing: border-box;
+   max-width: 100%;
 }
 
 input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
@@ -77,4 +78,10 @@ textarea {
 
 textarea:focus {
    border: 1px solid rgba(0,0,0,0.5);
+}
+
+.input_hint {
+   color: rgba(0,0,0,0.5);
+   padding-bottom: 5px;
+   font-size: 12px;
 }

@@ -34,6 +34,6 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["passw
    $template = new template;
    $template->load("set_admin");
 
-   $tmpl = $template->display();
+   $tmpl = $template->display(true, "design_login");
    echo $tmpl;
 }

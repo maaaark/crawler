@@ -2,6 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+function error($error){
+   print($error);
+}
+
 require_once 'system/config.php';
 require_once 'system/curl.func.php';
 require_once 'system/config_db.php';
