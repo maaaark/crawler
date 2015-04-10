@@ -18,3 +18,4 @@
 08:56:01 10.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
 08:57:01 10.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
 08:58:01 10.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
+08:59:01 10.04.2015: Cronjob-Handler (cronjob_handler.php) aufgerufen
