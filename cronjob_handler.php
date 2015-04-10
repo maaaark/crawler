@@ -4,6 +4,7 @@ require_once 'system/init.php';
 
 if(isset($_GET["internal_request"])){
    set_time_limit(0);
+   require_once 'parser/league_spider/lib/config.php';
    
 	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen\n";
 	$datei = fopen("logs/cronjob.log.txt","a+");
@@ -21,7 +22,8 @@ if(isset($_GET["internal_request"])){
 	}
 	$diff    = abs(strtotime($date2) - strtotime($date1));
 	$mins    = floor($diff / 60);
-	if($mins < 3){
+	
+	if($mins < CRONJOB_INTERVAL){
 		$league_spider = false;
 	}
 

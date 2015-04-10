@@ -5,6 +5,12 @@ if(file_exists("logs/league_spider/settings.conf")){
    $config_file = @json_decode(file_get_contents("logs/league_spider/settings.conf"), true);
 }
 
+if(isset($config_file["cronjob_interval"]) && $config_file["cronjob_interval"]){
+   define("CRONJOB_INTERVAL", $config_file["cronjob_interval"]);
+} else {
+   define("CRONJOB_INTERVAL", 3);
+}
+
 if(isset($config_file["game_version"]) && $config_file["game_version"]){
    define("GAME_VERSION", $config_file["game_version"]);
 } else {

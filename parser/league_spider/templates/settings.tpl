@@ -33,6 +33,12 @@
             <input type="text" name="allowed_leagues" value="{SETTINGS_ALLOWED_LEAGUES}">
             <div class="input_hint">Kommagetrennt die Namen der zu durchsuchenden Ligen angeben.</div>
          </div>
+         
+         <div class="input_element">
+            <div class="title">Cronjob Interval:</div>
+            <input type="text" name="cronjob_interval" value="{SETTINGS_CRONJOB_INTERVAL}">
+            <div class="input_hint">Alle X Minuten League Spider aufrufen (Standard ist 3)</div>
+         </div>
       </div>
       <div class="form-footer">
          <input type="hidden" name="change_league_spider_settings" value="true">

@@ -63,7 +63,7 @@ if(isset($_GET["settings"])){
    }
    $template->assign("CHAMPIONS_LIST", $champions_list);
    
-   $template->assign("SITE_TITLE", "League Spider");
+   $template->assign("SITE_TITLE", "League Spider &Uuml;bersicht");
    $tmpl = $template->display(true);
    $tmpl = $template->operators();
    echo $tmpl;
