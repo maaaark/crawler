@@ -20,7 +20,7 @@ if(file_exists("log/league_spider/change_mode.txt")){
 if($SID_MODE && USE_SID_MODE || MANUAL_SID_MODE){
 	echo "<div>SID-MODE:</div>";
 	for($i = 0; $i < MANUAL_SID_MODE_COUNT; $i++){
-      $date = date("Y-m-d H:i:s", time() - (60*60*SUMMONER_UPDATE_WAITING));
+      $date = date("Y-m-d H:i:s", time() - (60*SUMMONER_UPDATE_WAITING));
       $data = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_league_parser_summoner WHERE last_update < '".$GLOBALS["db"]->real_escape_string($date)."'"));
       
       if(isset($data["id"]) && $data["id"] > 0){

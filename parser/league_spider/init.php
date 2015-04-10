@@ -13,6 +13,9 @@ if(isset($_GET["settings"])){
 
    $summoner_num = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_summoner"));
    $template->assign("POSSIBLE_SUMMONERS", number_format($summoner_num["COUNT(*)"], 0, ",", "."));
+   
+   $summoner_num_unparsed = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_summoner WHERE last_update < '".date("Y-m-d H:i:s", time() - (60*SUMMONER_UPDATE_WAITING))."'"));
+   $template->assign("POSSIBLE_SUMMONERS_UNPARSED", number_format($summoner_num_unparsed["COUNT(*)"], 0, ",", "."));
 
    $champs_nums = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_champions_stats WHERE patch = '".GAME_VERSION."'"));
    $template->assign("CHAMPIONS_CURRENT_PATCH", number_format($champs_nums["COUNT(*)"], 0, ",", "."));

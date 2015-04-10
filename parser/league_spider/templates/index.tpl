@@ -6,10 +6,14 @@
 		<div class="message {LAST_CRAWLING_STATUS}">
 			Zuletzt gecrawled vor <b>{LAST_CRAWLING_MINS}</b> Minuten ({LAST_CRAWLING})
 		</div>
-		Aktueller Patch: {LEAGUE_SPIDER_GAME_VERSION}<br/>
-		Matches gecrawled: {MATCHES_CURRENT_PATCH}<br/>
-		Verschiedene Champions gefunden: {CHAMPIONS_CURRENT_PATCH}<br/>
-		Bekannte Summoners: {POSSIBLE_SUMMONERS}
+		
+		<table class="table">
+         <tr><td class="title">Aktueller Patch</td><td>{LEAGUE_SPIDER_GAME_VERSION}</td></tr>
+         <tr><td class="title">Matches gecrawled</td><td>{MATCHES_CURRENT_PATCH}</td></tr>
+         <tr><td class="title">Verschiedene Champions gefunden</td><td>{CHAMPIONS_CURRENT_PATCH}</td></tr>
+         <tr><td class="title">"Frische/Neue" Summoner</td><td>{POSSIBLE_SUMMONERS_UNPARSED}</td></tr>
+         <tr><td class="title">Bekannte Summoners</td><td>{POSSIBLE_SUMMONERS}</td></tr>
+      </table>
 	</div>
 </div>
 

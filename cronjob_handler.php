@@ -18,7 +18,7 @@ if(isset($_GET["internal_request"])){
 	if(file_exists("logs/league_spider/last_update.log.txt")){
 		$date2 = file_get_contents("logs/league_spider/last_update.log.txt");
 	} else {
-		$date2 = date('Y-m-d H:i:s', time() - (5 * 60 * 3));
+		$date2 = date('Y-m-d H:i:s', time() - (5 * 60));
 	}
 	$diff    = abs(strtotime($date2) - strtotime($date1));
 	$mins    = floor($diff / 60);
