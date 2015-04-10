@@ -11,20 +11,20 @@ if(isset($config_file["game_version"]) && $config_file["game_version"]){
    define("GAME_VERSION", "5.6");		  		// LoL-Version nach der gesucht werden soll
 }
 
-if(isset($config_file["summoner_limit"]) && trim($config_file["summoner_limit"])){
+if(isset($config_file["summoner_limit"]) && trim($config_file["summoner_limit"]) != ""){
    define("SUMMONER_LIMIT", intval($config_file["summoner_limit"]));
 } else {
    define("SUMMONER_LIMIT", 1);				// 0 = kein Limit
 }
 
-if(isset($config_file["summoner_parse_limit"]) && trim($config_file["summoner_parse_limit"])){
+if(isset($config_file["summoner_parse_limit"]) && trim($config_file["summoner_parse_limit"]) != ""){
    define("SUMMONER_PARSE_LIMIT", intval($config_file["summoner_parse_limit"]));
 } else {
    define("SUMMONER_PARSE_LIMIT", 1); 	   // Limit wie viele Summoners aus der Featured-Games-List genommen werden => je höher je mehr Leistung und Traffic nötig (0 = unbegrenzt)
 }
 
 
-if(isset($config_file["summoner_update_waiting"]) && trim($config_file["summoner_update_waiting"])){
+if(isset($config_file["summoner_update_waiting"]) && trim($config_file["summoner_update_waiting"]) != ""){
    define("SUMMONER_UPDATE_WAITING", intval($config_file["summoner_update_waiting"]));
 } else {
    define("SUMMONER_UPDATE_WAITING", 180); 	// Minuten die ein Summoner nach dem letzten laden nicht geupdated wird
