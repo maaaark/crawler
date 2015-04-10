@@ -39,6 +39,20 @@
             <input type="text" name="cronjob_interval" value="{SETTINGS_CRONJOB_INTERVAL}">
             <div class="input_hint">Alle X Minuten League Spider aufrufen (Standard ist 3)</div>
          </div>
+         
+         <h2>SID-Mode</h2>
+         <div class="input_element">
+            <div class="title">SID-Modus verwenden:</div>
+            <label><input type="radio" name="manual_sid_mode" value="true" {if SETTINGS_MANUAL_SID_MODE==TRUE}checked{/if}> Ja</label>
+            <label><input type="radio" name="manual_sid_mode" value="false"{if SETTINGS_MANUAL_SID_MODE==TRUE}{else}checked{/if}> Nein</label>
+            <div class="input_hint">Sollen die Bekannten Summoner-IDs durchlaufen werden anstelle der Featured-Games List?</div>
+         </div>
+         
+         <div class="input_element">
+            <div class="title">SID-Modus Summoner pro Aufruf:</div>
+            <input type="text" name="manual_sid_mode_count" value="{SETTINGS_MANUAL_SID_MODE_COUNT}">
+            <div class="input_hint">Wie viele Summoners sollen pro Aufruf analysiert werden?</div>
+         </div>
       </div>
       <div class="form-footer">
          <input type="hidden" name="change_league_spider_settings" value="true">

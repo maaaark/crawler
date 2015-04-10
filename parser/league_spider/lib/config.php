@@ -11,6 +11,18 @@ if(isset($config_file["cronjob_interval"]) && $config_file["cronjob_interval"]){
    define("CRONJOB_INTERVAL", 3);
 }
 
+if(isset($config_file["manual_sid_mode"]) && $config_file["manual_sid_mode"] == "true"){
+   define("MANUAL_SID_MODE", true);
+} else {
+   define("MANUAL_SID_MODE", false);
+}
+
+if(isset($config_file["manual_sid_mode_count"]) && intval($config_file["manual_sid_mode_count"]) > 0){
+   define("MANUAL_SID_MODE_COUNT", intval($config_file["manual_sid_mode_count"]));
+} else {
+   define("MANUAL_SID_MODE_COUNT", 10);
+}
+
 if(isset($config_file["game_version"]) && $config_file["game_version"]){
    define("GAME_VERSION", $config_file["game_version"]);
 } else {
