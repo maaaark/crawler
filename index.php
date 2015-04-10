@@ -7,6 +7,8 @@ if(isset($_SESSION["user_id"])){
       logout();
       addInstantMessage("Erfolgreich ausgeloggt.", "green");
       header("Location: index.php");
+   } elseif(isset($_GET["account_settings"])){
+      require_once 'system/dashboard_handler/account_settings.page.php';
    } elseif(isset($_GET["logs"])){
       require_once 'system/logs_handler/index.php';
    } else {

@@ -1,5 +1,5 @@
 <div class="right_options">
-   <button>Account Einstellungen</button>
+   <button onClick="self.location.href='index.php?account_settings'">Account Einstellungen</button>
 </div>
 
 <h1 class="site_title">Dashboard</h1>
