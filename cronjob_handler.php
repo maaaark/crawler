@@ -11,7 +11,6 @@ if(isset($_GET["internal_request"])){
 	fwrite($datei, $input);
 	fclose($datei);
 
-
 	$league_spider = true;
 	$need_api_request = true;
 	$date1   = date('Y-m-d H:i:s');

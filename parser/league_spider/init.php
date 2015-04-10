@@ -47,8 +47,10 @@ if(isset($_GET["settings"])){
       }
       
       $champ = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM champions WHERE champion_id = '".$GLOBALS["db"]->real_escape_string($row->champion)."'"));
-      foreach($champ as $column => $value){
-         $tmpl->assign("CHAMPION_".strtoupper($column), $value);
+      if(isset($champ["id"]) && $champ["id"] > 0){
+         foreach($champ as $column => $value){
+            $tmpl->assign("CHAMPION_".strtoupper($column), $value);
+         }
       }
       $tmpl->assign("KILLS_ROUND", format_number(round($row->kills, 1)));
       $tmpl->assign("DEATHS_ROUND", format_number(round($row->deaths, 1)));
