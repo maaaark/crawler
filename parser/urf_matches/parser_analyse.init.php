@@ -1,5 +1,5 @@
 <?php
-define("ANALYSE_MATCH_COUNT", 10);
+define("ANALYSE_MATCH_COUNT", 50);
 define("GAME_VERSION", "URF2015");
 require_once dirname(__FILE__).'/lib/match.class.php';
 
