@@ -1,0 +1,7 @@
+{
+   "name":     "Esports Parser",
+   "roles":    ["SUPERADMIN"],
+   "subnavi":  [
+      { "label": "&Uuml;bersicht", "link": "?parser=esports" }
+   ]
+}

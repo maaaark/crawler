@@ -2,7 +2,16 @@
 
 // MySQL-Config
 define("MYSQL_TYPE", "mysqli");
-define("MYSQL_USER", "crawler");
-define("MYSQL_PW", "7ZGK97YA8Q2Jm2KU");
+define("MYSQL_USER", "root");
+define("MYSQL_PW", "");
 define("MYSQL_DB", "nurf");
 define("MYSQL_HOST", "localhost");
+
+
+// Flashignite Tabelle
+// MySQL-Config
+define("MYSQL_FI_TYPE", "mysqli");
+define("MYSQL_FI_USER", "root");
+define("MYSQL_FI_PW", "");
+define("MYSQL_FI_DB", "flashignite");
+define("MYSQL_FI_HOST", "localhost");
