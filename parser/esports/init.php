@@ -2,6 +2,8 @@
 
 if(isset($_GET["loadteamids"])){
    require_once dirname(__FILE__).'/loadteamids.init.php';
+} elseif(isset($_GET["teams_overview"])){
+   require_once dirname(__FILE__).'/teams_overview.init.php';
 } elseif(isset($_GET["updateTournamentIDs"])){
    $content = @file_get_contents("http://na.lolesports.com:80/api/league.json?parameters%5Bmethod%5D=all");
 
