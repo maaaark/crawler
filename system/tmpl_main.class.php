@@ -117,7 +117,14 @@ class Template {
         $this->template = str_replace("{INSTANT_MESSAGES}", "", $this->template);
         
         if(strpos($this->template, "{NAVIGATION_PARSER}") > 0){
-            $this->template = str_replace("{NAVIGATION_PARSER}", $this->loadParserNavi(), $this->template);
+            $parser_navi = $this->loadParserNavi();
+            $this->template = str_replace("{NAVIGATION_PARSER}", $parser_navi["parser"], $this->template);
+            
+            if(trim($parser_navi["modules"]) != ""){
+               $this->template = str_replace("{NAVIGATION_MODULES}", $parser_navi["modules"], $this->template);
+            } else {
+               $this->template = str_replace("{NAVIGATION_MODULES}", "<div class='no_rights_navi'>Du hast momentan keinen Zugriff auf Module</div>", $this->template);
+            }
         }
     }
     
@@ -170,7 +177,7 @@ class Template {
     
     private function loadParserNavi(){
         $dir = opendir("parser");
-        $return = "";
+        $return = array("parser" => "", "modules" => "");
         while($folder = readdir($dir)){
            if(trim($folder) != "." && trim($folder) != ".." && trim($folder) != ""){
               if(file_exists("parser/".$folder."/init.php") && file_exists("parser/".$folder."/config.json")){
@@ -209,7 +216,12 @@ class Template {
                     }
                     $out .= "</div>";
                  }
-                 $return .= $out;
+                 
+                 if(isset($config["type"]) && strtolower(trim($config["type"])) == "module"){
+                    $return["modules"] .= $out;
+                 } else {
+                    $return["parser"] .= $out;
+                 }
               }
            }
         }

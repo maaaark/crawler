@@ -1,0 +1,8 @@
+{
+   "type":     "module",
+   "name":     "Benutzersystem",
+   "roles":    ["SUPERADMIN"],
+   "subnavi":  [
+      { "label": "&Uuml;bersicht", "link": "?module=user_system" }
+   ]
+}

@@ -58,6 +58,9 @@
 
          <div class="main_title">Parser:</div>
          {NAVIGATION_PARSER}
+         
+         <div class="main_title">Module:</div>
+         {NAVIGATION_MODULES}
 
          <div class="main_title">Logs:</div>
          <a href="index.php?logs">
