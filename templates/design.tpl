@@ -2,6 +2,8 @@
 <html>
 <head>
    <meta content="width=device-width,height=device-height, user-scalable=no" name="viewport">
+   <title>{if SITE_TITLE}{SITE_TITLE} - {/if}Flashignite Crawler</title>
+   
    <link rel="stylesheet" type="text/css" href="{DOMAIN}/assets/css/font-awesome.css">
    <link rel="stylesheet" type="text/css" href="{DOMAIN}/assets/css/design.css">
    <link rel="stylesheet" type="text/css" href="{DOMAIN}/assets/css/inputs.css">

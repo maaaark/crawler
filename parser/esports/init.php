@@ -61,7 +61,7 @@ if(isset($_GET["loadteamids"])){
 
    $template = new template;
    $template->load("index");
-   $template->assign("SITE_TITLE", "URF-Matches Parser");
+   $template->assign("SITE_TITLE", "Esports Parser");
    $template->assign("LEAGUES_LIST", $leagues);
    $tmpl = $template->display(true);
    $tmpl = $template->operators();
