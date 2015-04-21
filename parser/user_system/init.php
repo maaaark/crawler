@@ -17,6 +17,7 @@ if(isset($_GET["add_edit"])){
    $template = new template;
    $template->load("index");
    $template->assign("USERS_LIST", $users_list);
+   $template->assign("SITE_TITLE", "Benutzer&uuml;bersicht");
    $tmpl = $template->display(true);
    $tmpl = $template->operators();
    echo $tmpl;
