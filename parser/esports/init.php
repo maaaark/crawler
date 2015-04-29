@@ -1,9 +1,18 @@
 <?php
 
-if(isset($_GET["loadteamids"])){
+if(isset($_GET["league"])){
+   $data = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM esports_league WHERE id = '".$GLOBALS["db_fi"]->real_escape_string($_GET["league"])."'"));
+   if(isset($data["id"]) && $data["id"] > 0){
+      require_once dirname(__FILE__).'/lib/league.init.php';
+   } else {
+      error_404();
+   }
+} elseif(isset($_GET["loadteamids"])){
    require_once dirname(__FILE__).'/loadteamids.init.php';
 } elseif(isset($_GET["teams_overview"])){
    require_once dirname(__FILE__).'/teams_overview.init.php';
+} elseif(isset($_GET["loadleagues"])){
+   require_once dirname(__FILE__).'/loadleagues.init.php';
 } elseif(isset($_GET["updateTournamentIDs"])){
    $content = @file_get_contents("http://na.lolesports.com:80/api/league.json?parameters%5Bmethod%5D=all");
 
@@ -49,7 +58,7 @@ if(isset($_GET["loadteamids"])){
    header("Location: index.php?parser=esports");
 } else {
    $leagues = "";
-   $query   = $GLOBALS["db_fi"]->query("SELECT * FROM leagues WHERE tournament_id > 0 ORDER BY name ASC");
+   $query   = $GLOBALS["db_fi"]->query("SELECT * FROM esports_league ORDER BY short_name ASC");
    while($row = $GLOBALS["db"]->fetch_object($query)){
       $tmpl = new template;
       $tmpl->load("leagues_list");
