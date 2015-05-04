@@ -62,10 +62,16 @@ class Match {
       if(isset($match["contestants"]) && isset($match["contestants"]["red"]) && isset($match["contestants"]["blue"])){
          if(isset($match["contestants"]["blue"]["id"])){
             $sql .= ", team1_id = '".$GLOBALS["db_fi"]->real_escape_string($match["contestants"]["blue"]["id"])."'";
+            $team1 = new Team($match["contestants"]["blue"]["id"]);
+            $team1->save();
+            $team1 = null;
          }
          
          if(isset($match["contestants"]["red"]["id"])){
             $sql .= ", team2_id = '".$GLOBALS["db_fi"]->real_escape_string($match["contestants"]["red"]["id"])."'";
+            $team2 = new Team($match["contestants"]["red"]["id"]);
+            $team2->save();
+            $team2 = null;
          }
       }
       
@@ -94,7 +100,7 @@ class Match {
          }
       }
       $sql .= ", games = '".$GLOBALS["db_fi"]->real_escape_string(json_encode($games))."'";
-      
+
       if($sql_type == "update"){
          $sql .= " WHERE id = '".$GLOBALS["db_fi"]->real_escape_string($check["id"])."'";
       }

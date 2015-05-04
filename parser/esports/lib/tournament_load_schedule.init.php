@@ -1,6 +1,7 @@
 <?php
 set_time_limit(0);
 require_once dirname(__FILE__).'/class/player.class.php';
+require_once dirname(__FILE__).'/class/team.class.php';
 require_once dirname(__FILE__).'/class/game.class.php';
 require_once dirname(__FILE__).'/class/match.class.php';
 
@@ -18,6 +19,10 @@ if($content){
          } else {
             addInstantMessage("Das Match ".$match_column." konnte nicht verarbeitet werden.", "orange");
          }
+      }
+
+      if(isset($_SESSION["esports_parser_teams"])){ // Temporäre Team Daten zurücksetzen
+         $_SESSION["esports_parser_teams"] = "";
       }
    } else {
       addInstantMessage("Die Riot API hat eine nicht brauchbare Antwort zur&uuml;ckgegeben.", "red");
