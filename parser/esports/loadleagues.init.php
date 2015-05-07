@@ -42,7 +42,13 @@ if($content){
             $published_riot = 1;
          }
          $sql .= ", published_riot = '".$published_riot."'";
-         
+
+         $league_image = "";
+         if(isset($league["leagueImage"]) && trim($league["leagueImage"]) != ""){
+            $league_image = trim($league["leagueImage"]);
+         }
+         $sql .= ", league_image = '".$GLOBALS["db_fi"]->real_escape_string($league_image)."'";
+
          // "<pre>", print_r($league), "</pre>";
          if($sql_type == "update"){
             $sql .= " WHERE id = '".$GLOBALS["db_fi"]->real_escape_string($check["id"])."'";
