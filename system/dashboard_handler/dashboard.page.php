@@ -54,9 +54,25 @@ if(isset($_POST["dashboard_message"])){
       $dashboard_message = @file_get_contents("logs/dashboard_message.txt");
    }
    
+   $dashboard_alert       = "";
+   $dashboard_alert_title = "";
+   if(file_exists("logs/dashboard_alert.txt")){
+      $dashboard_alert_content = file_get_contents("logs/dashboard_alert.txt");
+      if(trim($dashboard_alert_content) != "" && trim($dashboard_alert_content) != "[]"){
+         $json = json_decode($dashboard_alert_content, true);
+         if(isset($json["title"]) && trim($json["content"]) && trim($json["title"]) != "" && trim($json["content"]) != ""){
+            $dashboard_alert = trim(nl2br($json["content"]));
+            $dashboard_alert_title = trim($json["title"]);
+         }
+      }
+   }
+   
+   
    $template = new Template;
    $template->load("index");
    $template->assign("SITE_TITLE", "Dashboard");
+   $template->assign("DASHBOARD_ALERT", $dashboard_alert);
+   $template->assign("DASHBOARD_ALERT_TITLE", $dashboard_alert_title);
    $template->assign("DASHBOARD_MESSAGE", $dashboard_message);
    $template->assign("IS_INDEX", true);
    $tmpl = $template->display(true);

@@ -4,6 +4,13 @@
 
 <h1 class="site_title">Dashboard</h1>
 
+{if DASHBOARD_ALERT}
+   <div class="dashboard_alert">
+      <div class="dashboard_alert_title">{DASHBOARD_ALERT_TITLE}</div>
+      <div class="dashboard_alert_content">{DASHBOARD_ALERT}</div>
+   </div>
+{/if}
+
 Eingeloggt als {LOGGED_USERNAME}
 
 <form action="index.php" method="post">

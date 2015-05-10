@@ -19,7 +19,7 @@ if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["passw
    }
    
    if($status){
-      $roles = array("SUPERADMIN");
+      $roles = array("SUPERADMIN", "NORMAL_USER");
       $salt  = randomString(10);
       $GLOBALS["db"]->query("INSERT INTO users SET username = '".$GLOBALS["db"]->real_escape_string(trim($_POST["username"]))."',
                                                    password = '".$GLOBALS["db"]->real_escape_string(md5(trim($_POST["password"]).$salt))."',

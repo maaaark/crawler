@@ -1,0 +1,8 @@
+{
+   "type":     "module",
+   "name":     "Einstellungen",
+   "roles":    ["SUPERADMIN"],
+   "subnavi":  [
+      { "label": "&Uuml;bersicht", "link": "?module=settings" }
+   ]
+}

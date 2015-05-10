@@ -139,3 +139,21 @@ table.table td.row_id {
 .table.sort_table thead th.headerSortDown {
 	background-image: url(../img/table_sort/table_sort_desc.gif);
 }
+
+/* Dashboard Alert */
+.dashboard_alert {
+   margin-bottom: 25px;
+}
+
+.dashboard_alert .dashboard_alert_title {
+   padding: 5px;
+   padding-left: 12px;
+   padding-right: 12px;
+   font-weight: bold;
+   background: rgb(255, 186, 58);
+}
+
+.dashboard_alert .dashboard_alert_content {
+   padding: 12px;
+   background: rgb(255, 214, 137);
+}
