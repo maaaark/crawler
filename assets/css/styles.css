@@ -3,6 +3,37 @@
    margin-bottom: 20px;
    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
    position: relative;
+   box-sizing: border-box;
+}
+
+.box_row {
+   padding-bottom: 5px;
+}
+
+.box_row:after {
+   content:'';
+   display:block;
+   clear: both;
+}
+
+.box_row .main_box.half {
+   width: 49%;
+   float: left;
+}
+
+.box_row .main_box.half:last-child {
+   float: right;
+}
+
+@media(max-width: 770px){
+   .box_row .main_box.half {
+      width: 100%;
+      float: inherit;
+   }
+
+   .box_row .main_box.half:last-child {
+      float: inherit;
+   }
 }
 
 .main_box .box_title {

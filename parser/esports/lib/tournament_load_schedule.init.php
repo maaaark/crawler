@@ -4,6 +4,7 @@ require_once dirname(__FILE__).'/class/player.class.php';
 require_once dirname(__FILE__).'/class/team.class.php';
 require_once dirname(__FILE__).'/class/game.class.php';
 require_once dirname(__FILE__).'/class/match.class.php';
+require_once dirname(__FILE__).'/class/standings.class.php';
 
 $content = @file_get_contents("http://na.lolesports.com:80/api/schedule.json?tournamentId=".trim($tournament["tournament_id"])."&includeFinished=true&includeFuture=true");
 if($content){
@@ -20,6 +21,10 @@ if($content){
             addInstantMessage("Das Match ".$match_column." konnte nicht verarbeitet werden.", "orange");
          }
       }
+
+      // Standings aktualisieren
+      $standings = new Standings($tournament["tournament_id"]);
+      $standings->save();
 
       if(isset($_SESSION["esports_parser_teams"])){ // Temporäre Team Daten zurücksetzen
          $_SESSION["esports_parser_teams"] = "";
