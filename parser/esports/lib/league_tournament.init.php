@@ -2,6 +2,8 @@
 
 if(isset($_GET["loadschedule"])){
    include dirname(__FILE__).'/tournament_load_schedule.init.php';
+} elseif(isset($_GET["settings"])){
+   include dirname(__FILE__).'/tournament_settings.init.php';
 } else {
    $standings = "";
    $query     = $GLOBALS["db_fi"]->query("SELECT * FROM esports_standings WHERE tournament_id = '".$GLOBALS["db_fi"]->real_escape_string($tournament["tournament_id"])."' ORDER by rank ASC");
