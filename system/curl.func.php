@@ -26,4 +26,11 @@ function curl_file($url, $use_useragent = false){
    return array("result" => $result, "info" => $info, "error" => $error);
 }
 
+function check_curl($array){
+    if(isset($array["info"]) && isset($array["info"]["http_code"]) && $array["info"]["http_code"] == 200 && isset($array["result"]) && trim($array["result"]) != ""){
+        return true;
+    }
+    return false;
+}
+
 ?>

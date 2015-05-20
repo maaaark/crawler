@@ -4,6 +4,7 @@ require_once 'system/init.php';
 
 if(isset($_GET["internal_request"])){
    set_time_limit(0);
+   // Alter League-Spider Crawler
    require_once 'parser/league_spider/lib/config.php';
    
 	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen\n";
@@ -35,6 +36,10 @@ if(isset($_GET["internal_request"])){
 		fclose($datei);
 		require_once 'parser/league_spider/parser.init.php';
 	}
+	
+} elseif(isset($_GET["internal_request2"])){
+	// Neue League-Spider
+	require_once 'parser/league_spider2/parser.init.php';
 } else {
 	echo "error";
 }
