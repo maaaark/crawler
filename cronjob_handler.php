@@ -2,11 +2,15 @@
 
 require_once 'system/init.php';
 
-print_r($argv[1]);
-if(isset($_GET["internal_request"])){
+// $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
+if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
 	set_time_limit(0);
 
-	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
+	if(isset($_GET) && isset($_GET["internal_request"])){
+		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
+	} else {
+		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. $argv = ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($argv, true))), 0, -1))."\n";
+	}
 	$datei = fopen("logs/cronjob.log.txt","a+");
 	rewind($datei);
 	fwrite($datei, $input);
