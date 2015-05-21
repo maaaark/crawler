@@ -17,7 +17,7 @@ if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
 	// Region-load Markierung setzen
 	$datei = fopen("logs/league_spider/running/".$load_region."_running.txt","w+");
 	rewind($datei);
-	fwrite($datei, date('Y_m_d__h.i.s'));
+	fwrite($datei, date('Y_m_d__h.i.s').": Running-ID: ".$running_id);
 	fclose($datei);
 
 	$league_spider = new LeagueSpider($load_region);
