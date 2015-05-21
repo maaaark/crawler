@@ -10,8 +10,16 @@ if(isset($_GET["region_value"])){
 	}
 }
 
+if(isset($argv[2])){
+	if(trim(strtolower($argv[2])) == "na"){
+		$load_region = "na";
+	}
+}
 
-if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
+
+echo $load_region;
+
+/*if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
 	echo "Es laueft bereits ein Crawler fuer ".$load_region;
 } else {
 	// Region-load Markierung setzen
@@ -48,4 +56,4 @@ if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
 	if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
 		unlink("logs/league_spider/running/".$load_region."_running.txt");
 	}
-}
+}*/
