@@ -3,6 +3,8 @@ require_once dirname(__FILE__).'/lib/config.php';
 
 if(isset($_GET["settings"])){
    require_once dirname(__FILE__).'/settings.init.php';
+} elseif(isset($_GET["logger"])){
+   require_once dirname(__FILE__).'/logs.init.php';
 } else {
    $template = new template;
    $template->load("index");

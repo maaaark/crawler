@@ -3,6 +3,7 @@
    "roles":    ["SUPERADMIN"],
    "subnavi":  [
       { "label": "&Uuml;bersicht", "link": "?parser=league_spider2" },
+      { "label": "Logs", "link": "?parser=league_spider2&logger" },
       { "label": "Einstellungen", "link": "?parser=league_spider2&settings" }
    ]
 }
