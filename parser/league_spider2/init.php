@@ -44,28 +44,63 @@ if(isset($_GET["settings"])){
    $template->assign("LAST_CRAWLING", date("H:i:s d.m.Y", strtotime($last_crawling)));
    
    // Champions-List
+   function add_durchschnitt($array, $column, $value){
+      $temp = 0;
+      if(isset($array["data"][$column])){
+         $temp = $array["data"][$column];
+      }
+      $array["data"][$column] = ($temp + $value) / $array["count"];
+      return $array;
+   }
+
+   function add_normal($array, $column, $value){
+      $temp = 0;
+      if(isset($array["data"][$column])){
+         $temp = $array["data"][$column];
+      }
+      $array["data"][$column] = $temp + $value;
+      return $array;
+   }
+
    $query = $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats WHERE patch = '".GAME_VERSION."' ORDER BY matches_count DESC");
+   $champion_arr   = array();
    $champions_list = "";
    while($row = $GLOBALS["db"]->fetch_object($query)){
+      if(!isset($champion_arr[$row->champion]) || !is_array($champion_arr[$row->champion])){
+         $champion_arr[$row->champion] = array("data" => array(), "count" => 0);
+      }
+
+      $champion_arr[$row->champion]["count"]++;
+      $champion_arr[$row->champion] = add_durchschnitt($champion_arr[$row->champion], "kills", $row->kills);
+      $champion_arr[$row->champion] = add_durchschnitt($champion_arr[$row->champion], "deaths", $row->deaths);
+      $champion_arr[$row->champion] = add_durchschnitt($champion_arr[$row->champion], "assists", $row->assists);
+      $champion_arr[$row->champion] = add_durchschnitt($champion_arr[$row->champion], "lasthits", $row->lasthits);
+      $champion_arr[$row->champion] = add_durchschnitt($champion_arr[$row->champion], "gold_earned", $row->gold_earned);
+
+      $champion_arr[$row->champion] = add_normal($champion_arr[$row->champion], "matches_count", $row->matches_count);
+      $champion_arr[$row->champion] = add_normal($champion_arr[$row->champion], "wins", $row->wins);
+   }
+
+   foreach($champion_arr as $champion_id => $champion){
       $tmpl = new Template;
       $tmpl->load("list_element");
-      foreach((array) $row as $column => $value){
+      foreach($champion["data"] as $column => $value){
          $tmpl->assign(strtoupper($column), $value);
       }
       
-      $champ = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM champions WHERE champion_id = '".$GLOBALS["db"]->real_escape_string($row->champion)."'"));
+      $champ = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM champions WHERE champion_id = '".$GLOBALS["db"]->real_escape_string($champion_id)."'"));
       if(isset($champ["id"]) && $champ["id"] > 0){
          foreach($champ as $column => $value){
             $tmpl->assign("CHAMPION_".strtoupper($column), $value);
          }
       }
-      $tmpl->assign("KILLS_ROUND", format_number(round($row->kills, 1)));
-      $tmpl->assign("DEATHS_ROUND", format_number(round($row->deaths, 1)));
-      $tmpl->assign("ASSISTS_ROUND", format_number(round($row->assists, 1)));
-      $tmpl->assign("LASTHITS_ROUND", format_number(round($row->lasthits, 1)));
-      $tmpl->assign("GOLD_EARNED_ROUND", format_number(round($row->gold_earned, 1)));
+      $tmpl->assign("KILLS_ROUND", format_number(round($champion["data"]["kills"], 1)));
+      $tmpl->assign("DEATHS_ROUND", format_number(round($champion["data"]["deaths"], 1)));
+      $tmpl->assign("ASSISTS_ROUND", format_number(round($champion["data"]["assists"], 1)));
+      $tmpl->assign("LASTHITS_ROUND", format_number(round($champion["data"]["lasthits"], 1)));
+      $tmpl->assign("GOLD_EARNED_ROUND", format_number(round($champion["data"]["gold_earned"], 1)));
       
-      $tmpl->assign("WINRATE", str_replace(".", ",", round(($row->wins / $row->matches_count * 100), 1)));
+      $tmpl->assign("WINRATE", str_replace(".", ",", round(($champion["data"]["wins"] / $champion["data"]["matches_count"] * 100), 1)));
       $champions_list .= $tmpl->display();
    }
    $template->assign("CHAMPIONS_LIST", $champions_list);
