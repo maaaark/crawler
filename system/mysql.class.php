@@ -20,9 +20,9 @@ class MySQL {
    
    public function query($sql){
       if($this->type == 2){
-         $query = mysqli_query($this->db, $sql) or die(mysqli_error($this->db));
+         $query = mysqli_query($this->db, $sql) or print(mysqli_error($this->db));
       } else {
-         $query = mysql_query($sql) or die(mysql_error());
+         $query = mysql_query($sql) or print(mysql_error());
       }
       return $query;
    }
