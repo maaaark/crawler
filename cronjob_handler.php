@@ -23,6 +23,7 @@ if(isset($_GET["internal_request"])){
 
 	if(file_exists("logs/league_spider/running/".$running_id)){
 		unlink("logs/league_spider/running/".$running_id);
+		echo "Process-Data: deleted";
 	}
 
 } elseif(isset($_GET["internal_request2"])){
