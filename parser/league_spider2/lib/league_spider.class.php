@@ -4,11 +4,11 @@ class LeagueSpider {
     private $logger;
     private $region;
     
-    public function __construct(){
+    public function __construct($region = "euw"){
         $this->logger = new LeagueSpiderLog();
         $this->logger->log("LeagueSpider init");
         
-        $this->setRegion("euw");
+        $this->setRegion($region);
     }
     
     /*
