@@ -3,7 +3,7 @@
 require_once dirname(__FILE__).'/lib/config.php';
 echo "<body>Aktuelle LoL-Version: ".GAME_VERSION."<hr/>";
 
-print_r($_GET);
+$load_region = "euw";
 if(isset($_GET["region_value"])){
 	if(trim(strtolower($_GET["region_value"])) == "na"){
 		$load_region = "na";
