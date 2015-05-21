@@ -8,7 +8,7 @@ class LeagueSpider {
         $this->logger = new LeagueSpiderLog();
         $this->logger->log("LeagueSpider init");
         
-        $this->setRegion($region);
+        $this->setRegion(strtolower(trim($region)));
     }
     
     /*
