@@ -2,6 +2,7 @@
 
 require_once 'system/init.php';
 
+print_r($argv[1]);
 if(isset($_GET["internal_request"])){
 	set_time_limit(0);
 
