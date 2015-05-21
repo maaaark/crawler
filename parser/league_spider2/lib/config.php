@@ -1,8 +1,8 @@
 <?php
 
 $config_file = array();
-if(file_exists("logs/league_spider/settings.conf")){
-   $config_file = @json_decode(file_get_contents("logs/league_spider/settings.conf"), true);
+if(file_exists(ROOT_DIR."/logs/league_spider/settings.conf")){
+   $config_file = @json_decode(file_get_contents(ROOT_DIR."/logs/league_spider/settings.conf"), true);
 }
 
 if(isset($config_file["cronjob_interval"]) && $config_file["cronjob_interval"]){

@@ -1,7 +1,6 @@
 <?php
 
-require_once 'system/init.php';
-echo ROOT_DIR;
+require_once dirname(__FILE__).'/system/init.php';
 
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
@@ -29,7 +28,12 @@ if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(s
 
 	if(file_exists(ROOT_DIR."/logs/league_spider/running/".$running_id)){
 		unlink(ROOT_DIR."/logs/league_spider/running/".$running_id);
-		echo "Process-Data: deleted #".$running_id;
+
+		if(isset($argv) && isset($argv[1])){
+			echo PHP_EOL."Process-Data: deleted #".$running_id;
+		} else {
+			echo "<br/>Process-Data: deleted #".$running_id;
+		}
 	}
 
 } elseif(isset($_GET["internal_request2"])){

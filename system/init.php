@@ -6,6 +6,8 @@ function error($error){
    print($error);
 }
 
+define("ROOT_DIR", dirname(dirname(__FILE__)));
+
 require_once dirname(__FILE__).'/config.php';
 require_once dirname(__FILE__).'/curl.func.php';
 require_once dirname(__FILE__).'/config_db.php';
