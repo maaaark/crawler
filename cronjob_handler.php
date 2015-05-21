@@ -3,6 +3,7 @@
 require_once 'system/init.php';
 
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
+print_r($argv);
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
 	set_time_limit(0);
 
