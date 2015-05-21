@@ -6,6 +6,8 @@ if(isset($_GET["settings"])){
 } elseif(isset($_GET["logger"])){
    require_once dirname(__FILE__).'/logs.init.php';
 } else {
+	require_once dirname(__FILE__).'/overview_functions.php';
+
    $template = new template;
    $template->load("index");
    $template->assign("LEAGUE_SPIDER_GAME_VERSION", GAME_VERSION);
@@ -68,6 +70,9 @@ if(isset($_GET["settings"])){
    }
    $template->assign("CHAMPIONS_LIST", $champions_list);
    
+   $template->assign("RUNNING_CRAWLER_COUNT", getRunningCount());
+   $template->assign("RUNNING_CRAWLER_EUW", getRunningRegion("euw"));
+   $template->assign("RUNNING_CRAWLER_NA", getRunningRegion("na"));
    $template->assign("SITE_TITLE", "League Spider &Uuml;bersicht");
    $tmpl = $template->display(true);
    $tmpl = $template->operators();

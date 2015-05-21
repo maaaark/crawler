@@ -14,6 +14,13 @@
          <tr><td class="title">"Frische/Neue" Summoner</td><td>{POSSIBLE_SUMMONERS_UNPARSED}</td></tr>
          <tr><td class="title">Bekannte Summoners</td><td>{POSSIBLE_SUMMONERS}</td></tr>
       </table>
+
+      <h2>Technische-Daten</h2>
+      <table class="table">
+         <tr><td class="title">Laufende Crawler Prozesse</td><td>{RUNNING_CRAWLER_COUNT}</td></tr>
+         <tr><td class="title">EUW Crawler aktiv</td><td>{RUNNING_CRAWLER_EUW}</td></tr>
+         <tr><td class="title">NA Crawler aktiv</td><td>{RUNNING_CRAWLER_NA}</td></tr>
+      </table>
 	</div>
 </div>
 
