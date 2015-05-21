@@ -22,13 +22,29 @@ if(isset($argv[2])){
 	}
 }
 
+// Checken ob bereits anderer Crawler für diese Region läuft
+$crawl_enabled = true;
 if(file_exists(ROOT_DIR."/logs/league_spider/running/".$load_region."_running.txt")){
+	$crawl_enabled   = false;
+	$content_running = file_get_contents(ROOT_DIR."/logs/league_spider/running/".$load_region."_running.txt");
+	$date2 			 = substr($content_running, 0, strpos($content_running, ":"));
+	$date2			 = str_replace("_", "-", substr($date2, 0, strpos($date2, "__")))." ".str_replace(".", ":", substr($date2, strpos(trim($date2), "__")+2));
+	$date1       	 = date('Y-m-d H:i:s');
+	$diff       	 = abs(strtotime($date2) - strtotime($date1));
+	$mins        	 = floor($diff / 60);
+	
+	if($mins > 5){ // Wenn diese Region schon seit 5 Minuten geblockt ist: freischalten
+		$crawl_enabled = true;
+	}
+}
+
+if($crawl_enabled == false){
 	echo "Es laueft bereits ein Crawler fuer ".$load_region;
 } else {
 	// Region-load Markierung setzen
 	$datei = fopen(ROOT_DIR."/logs/league_spider/running/".$load_region."_running.txt","w+");
 	rewind($datei);
-	fwrite($datei, date('Y_m_d__h.i.s').": Running-ID: ".$running_id);
+	fwrite($datei, date('Y_m_d__H.i.s').": Running-ID: ".$running_id);
 	fclose($datei);
 
 	$league_spider = new LeagueSpider($load_region);
