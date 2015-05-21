@@ -1,34 +1,34 @@
 <?php
 
 require_once 'system/init.php';
+echo ROOT_DIR;
 
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
-print_r($argv);
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
 	set_time_limit(0);
 
 	if(isset($_GET) && isset($_GET["internal_request"])){
 		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
 	} else {
-		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. $argv = ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($argv, true))), 0, -1))."\n";
+		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. ARGV = ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($argv, true))), 0, -1))."\n";
 	}
-	$datei = fopen("logs/cronjob.log.txt","a+");
+	$datei = fopen(ROOT_DIR."/logs/cronjob.log.txt","a+");
 	rewind($datei);
 	fwrite($datei, $input);
 	fclose($datei);
 
 	$running_id = time()."_".randomString(5).".crawler";
 	$input = date('Y-m-d H:i:s')."; PID: ".getmypid();
-	$datei = fopen("logs/league_spider/running/".$running_id,"w+");
+	$datei = fopen(ROOT_DIR."/logs/league_spider/running/".$running_id,"w+");
 	rewind($datei);
 	fwrite($datei, $input);
 	fclose($datei);
 
 	// Neue League-Spider
-	require_once 'parser/league_spider2/parser.init.php';
+	require_once ROOT_DIR.'/parser/league_spider2/parser.init.php';
 
-	if(file_exists("logs/league_spider/running/".$running_id)){
-		unlink("logs/league_spider/running/".$running_id);
+	if(file_exists(ROOT_DIR."/logs/league_spider/running/".$running_id)){
+		unlink(ROOT_DIR."/logs/league_spider/running/".$running_id);
 		echo "Process-Data: deleted #".$running_id;
 	}
 

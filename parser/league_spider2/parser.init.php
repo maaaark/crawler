@@ -16,9 +16,6 @@ if(isset($argv[2])){
 	}
 }
 
-
-echo $load_region;
-
 /*if(file_exists("logs/league_spider/running/".$load_region."_running.txt")){
 	echo "Es laueft bereits ein Crawler fuer ".$load_region;
 } else {
