@@ -46,7 +46,7 @@ class NormalMode {
     private function load_leagues(){
         $this->logger->log("Normal-Mode: load_leagues");
 
-        $query = $GLOBALS["db"]->query("SELECT * FROM lol_league_parser_summoner WHERE region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND last_update < '".date('Y-m-d H:i:s', time() - SUMMONER_UPDATE_WAITING * 60)."' LIMIT ".SUMMONER_LIMIT);
+        $query = $GLOBALS["db"]->query("SELECT * FROM lol_league_parser_summoner WHERE region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND last_update < '".date('Y-m-d H:i:s', time() - SUMMONER_UPDATE_WAITING * 60)."' ORDER BY RAND() LIMIT ".SUMMONER_LIMIT);
         $nums  = $GLOBALS["db"]->num_rows($query);
         $this->logger->log("Selected ".$nums."/".SUMMONER_LIMIT." summoners to update");
 
