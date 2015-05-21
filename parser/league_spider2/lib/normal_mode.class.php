@@ -45,5 +45,24 @@ class NormalMode {
     
     private function load_leagues(){
         $this->logger->log("Normal-Mode: load_leagues");
+
+        $query = $GLOBALS["db"]->query("SELECT * FROM lol_league_parser_summoner WHERE region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND last_update < '".date('Y-m-d H:i:s', time() - SUMMONER_UPDATE_WAITING * 60)."' LIMIT ".SUMMONER_LIMIT);
+        $nums  = $GLOBALS["db"]->num_rows($query);
+        $this->logger->log("Selected ".$nums."/".SUMMONER_LIMIT." summoners to update");
+
+        $success_count = 0;
+        while($row = $GLOBALS["db"]->fetch_object($query)){
+            $analyse       = $this->analyse_summoner($row->id);
+            $success_count = $success_count + $analyse;
+
+            $update = $GLOBALS["db"]->query("UPDATE lol_league_parser_summoner SET last_update = '".date('Y-m-d H:i:s')."' WHERE id = '".$GLOBALS["db"]->real_escape_string($row->id)."'");
+        }
+        $this->logger->log($success_count." new matches were found (".$this->region.").");
+        $this->logger->set_final_message($success_count." new matches were found (".$this->region.").");
+    }
+
+    private function analyse_summoner($summoner_id){
+        $analyse = new NormalModeAnalyse($this->logger, $this->region);
+        return $analyse->analyse($summoner_id);
     }
 }

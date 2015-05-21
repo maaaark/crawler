@@ -1,8 +1,8 @@
 {
-   "name":     "League Spider 2",
+   "name":     "League Spider 2.0",
    "roles":    ["SUPERADMIN"],
    "subnavi":  [
       { "label": "&Uuml;bersicht", "link": "?parser=league_spider2" },
-      //{ "label": "Einstellungen", "link": "?parser=league_spider2&settings" }
+      { "label": "Einstellungen", "link": "?parser=league_spider2&settings" }
    ]
 }

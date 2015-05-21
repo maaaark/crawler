@@ -16,6 +16,7 @@ class LeagueSpider {
     */
     public function run($mode){
         if($mode == 1){
+            require_once dirname(__FILE__).'/normal_mode_analyse.class.php';
             require_once dirname(__FILE__).'/normal_mode.class.php';
             $normal_mode = new NormalMode($this->logger, $this->region);
             $normal_mode->run();
@@ -33,6 +34,6 @@ class LeagueSpider {
     }
     
     public function getLog($type = "console"){
-        return $this->logger->get("html");
+        return $this->logger->get($type);
     }
 }

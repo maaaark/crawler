@@ -2,13 +2,15 @@
 
 class LeagueSpiderLog {
     private $content;
+    private $final_message;
     private $error_count;
     private $curl_errors;
     
     public function __construct(){
-        $this->content     = "";
-        $this->error_count = 0;
-        $this->curl_errors = 0;
+        $this->content       = "";
+        $this->final_message = "";
+        $this->error_count   = 0;
+        $this->curl_errors   = 0;
     }
     
     public function log($message){
@@ -31,9 +33,17 @@ class LeagueSpiderLog {
         $this->error_count++;
         $this->curl_errors++;
     }
+
+    public function set_final_message($message){
+        $this->final_message = date("H:i:s d.m.Y").": ".trim($message);
+    }
     
+    public function append_final_message($message){
+        $this->final_message = $this->final_message.trim($message);
+    }
+
     public function get($type = "console"){
-        $array = array("error_count" => $this->error_count, "log" => "");
+        $array = array("error_count" => $this->error_count, "final_message" => $this->final_message, "log" => "");
         if($type == "html"){
             $array["log"] = nl2br($this->content);
         } else {

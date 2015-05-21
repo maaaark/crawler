@@ -3,8 +3,24 @@
 require_once 'system/init.php';
 
 if(isset($_GET["internal_request"])){
-   set_time_limit(0);
-   // Alter League-Spider Crawler
+	set_time_limit(0);
+
+	$running_id = time()."_".randomString(5).".crawler";
+	$input = date('Y-m-d H:i:s')."; PID: ".getmypid();
+	$datei = fopen("logs/league_spider/running/".$running_id,"w+");
+	rewind($datei);
+	fwrite($datei, $input);
+	fclose($datei);
+
+	// Neue League-Spider
+	require_once 'parser/league_spider2/parser.init.php';
+
+	if(file_exists("logs/league_spider/running/".$running_id)){
+		unlink("logs/league_spider/running/".$running_id);
+	}
+
+} elseif(isset($_GET["internal_request2"])){
+	// Alter League-Spider Crawler
    require_once 'parser/league_spider/lib/config.php';
    
 	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen\n";
@@ -36,10 +52,6 @@ if(isset($_GET["internal_request"])){
 		fclose($datei);
 		require_once 'parser/league_spider/parser.init.php';
 	}
-	
-} elseif(isset($_GET["internal_request2"])){
-	// Neue League-Spider
-	require_once 'parser/league_spider2/parser.init.php';
 } else {
 	echo "error";
 }

@@ -23,6 +23,9 @@ class FeaturedGames {
             $json = json_decode($curl["result"], true);
             if(isset($json["gameList"]) && is_array($json["gameList"])){
                 $this->handle_fetch_summoner($json["gameList"]);
+
+                $this->logger->log("Loaded new summoners (".$this->region.").");
+                $this->logger->set_final_message("Loaded new summoners(".$this->region.").");
             } else {
                 $this->logger->log_error("Got unknown JSON object: featured-games");
             }

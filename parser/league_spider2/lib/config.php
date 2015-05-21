@@ -20,7 +20,7 @@ if(isset($config_file["game_version"]) && $config_file["game_version"]){
 if(isset($config_file["summoner_limit"]) && trim($config_file["summoner_limit"]) != ""){
    define("SUMMONER_LIMIT", intval($config_file["summoner_limit"]));
 } else {
-   define("SUMMONER_LIMIT", 1);				// 0 = kein Limit
+   define("SUMMONER_LIMIT", 100);
 }
 
 if(isset($config_file["summoner_update_waiting"]) && trim($config_file["summoner_update_waiting"]) != ""){
@@ -52,5 +52,6 @@ function check_array($array, $value){
 	return false;
 }
 
+require_once dirname(__FILE__).'/match.class.php';
 require_once dirname(__FILE__).'/league_spider_log.class.php';
 require_once dirname(__FILE__).'/league_spider.class.php';
