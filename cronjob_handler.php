@@ -1,9 +1,10 @@
 <?php
 
-require_once 'system/init.php';
+//require_once 'system/init.php';
 
+echo "deactivated";
 if(isset($_GET["internal_request"])){
-	set_time_limit(0);
+	/*set_time_limit(0);
 
 	$running_id = time()."_".randomString(5).".crawler";
 	$input = date('Y-m-d H:i:s')."; PID: ".getmypid();
@@ -17,10 +18,10 @@ if(isset($_GET["internal_request"])){
 
 	if(file_exists("logs/league_spider/running/".$running_id)){
 		unlink("logs/league_spider/running/".$running_id);
-	}
+	}*/
 
 } elseif(isset($_GET["internal_request2"])){
-	// Alter League-Spider Crawler
+	/*// Alter League-Spider Crawler
    require_once 'parser/league_spider/lib/config.php';
    
 	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen\n";
@@ -51,9 +52,9 @@ if(isset($_GET["internal_request"])){
 		fwrite($datei, $input);
 		fclose($datei);
 		require_once 'parser/league_spider/parser.init.php';
-	}
+	}*/
 } else {
-	echo "error";
+	//echo "error";
 }
 
 ?>
