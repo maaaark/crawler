@@ -5,6 +5,12 @@ require_once 'system/init.php';
 if(isset($_GET["internal_request"])){
 	set_time_limit(0);
 
+	$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
+	$datei = fopen("logs/cronjob.log.txt","a+");
+	rewind($datei);
+	fwrite($datei, $input);
+	fclose($datei);
+
 	$running_id = time()."_".randomString(5).".crawler";
 	$input = date('Y-m-d H:i:s')."; PID: ".getmypid();
 	$datei = fopen("logs/league_spider/running/".$running_id,"w+");
