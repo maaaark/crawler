@@ -24,7 +24,7 @@
             box-sizing: border-box;
          }
          
-         .region_matches_count:last-child {
+         .region_matches_count.last {
             border-right:none;
          }
       </style>
@@ -38,7 +38,7 @@
             <td colspan="2" style="background: rgba(247, 247, 247, 1);">
                 <div class="region_matches_count">{MATCHES_COUNT_EUW} EUW-Matches</div>
                 <div class="region_matches_count">{MATCHES_COUNT_NA} NA-Matches</div>
-                <div class="region_matches_count">{MATCHES_COUNT_EUNE} EUNE-Matches</div>
+                <div class="region_matches_count last">{MATCHES_COUNT_EUNE} EUNE-Matches</div>
                 <div style="clear:both;"></div>
             </td>
          </tr>
