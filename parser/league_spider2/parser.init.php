@@ -14,11 +14,17 @@ if(isset($_GET["region_value"])){
 	if(trim(strtolower($_GET["region_value"])) == "na"){
 		$load_region = "na";
 	}
+	elseif(trim(strtolower($_GET["region_value"])) == "eune"){
+		$load_region = "eune";
+	}
 }
 
 if(isset($argv[2])){
 	if(trim(strtolower($argv[2])) == "na"){
 		$load_region = "na";
+	}
+	elseif(trim(strtolower($argv[2])) == "eune"){
+		$load_region = "eune";
 	}
 }
 

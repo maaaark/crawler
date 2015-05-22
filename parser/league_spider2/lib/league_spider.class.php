@@ -27,6 +27,9 @@ class LeagueSpider {
         if($value == "na"){
             $this->region = "na";
             define("API_REGION", "https://na.api.pvp.net");
+        } elseif($value == "eune"){
+            $this->region = "eune";
+            define("API_REGION", "https://eune.api.pvp.net");
         } else {
             $this->region = "euw";
             define("API_REGION", "https://euw.api.pvp.net");
