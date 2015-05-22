@@ -109,6 +109,18 @@ if(isset($_GET["settings"])){
    $template->assign("RUNNING_CRAWLER_EUW", getRunningRegion("euw"));
    $template->assign("RUNNING_CRAWLER_NA", getRunningRegion("na"));
    $template->assign("RUNNING_CRAWLER_EUNE", getRunningRegion("eune"));
+   
+   function getRegionMatchesCount($region){
+      $data  = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_matches WHERE patch = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."' AND region = '".$GLOBALS["db"]->real_escape_string(trim($region))."'"));
+      if(isset($data["COUNT(*)"]) && $data["COUNT(*)"] > 0){
+          return format_number($data["COUNT(*)"], 1);
+      }
+      return 0;
+   }
+   $template->assign("MATCHES_COUNT_EUW", getRegionMatchesCount("euw"));
+   $template->assign("MATCHES_COUNT_NA", getRegionMatchesCount("na"));
+   $template->assign("MATCHES_COUNT_EUNE", getRegionMatchesCount("eune"));
+   
    $template->assign("SITE_TITLE", "League Spider &Uuml;bersicht");
    $tmpl = $template->display(true);
    $tmpl = $template->operators();

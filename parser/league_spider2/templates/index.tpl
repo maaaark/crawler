@@ -14,13 +14,34 @@
          <tr><td class="title">"Frische/Neue" Summoner</td><td>{POSSIBLE_SUMMONERS_UNPARSED}</td></tr>
          <tr><td class="title">Bekannte Summoners</td><td>{POSSIBLE_SUMMONERS}</td></tr>
       </table>
-
+      
+      <style>
+         .region_matches_count {
+            width: 33.33333%;
+            float: left;
+            text-align: center;
+            border-right: 1px solid rgba(0,0,0,0.1);
+            box-sizing: border-box;
+         }
+         
+         .region_matches_count:last-child {
+            border-right:none;
+         }
+      </style>
       <h2>Technische-Daten</h2>
       <table class="table">
          <tr><td class="title">Laufende Crawler Prozesse</td><td>{RUNNING_CRAWLER_COUNT}</td></tr>
          <tr><td class="title">EUW Crawler aktiv</td><td>{RUNNING_CRAWLER_EUW}</td></tr>
          <tr><td class="title">NA Crawler aktiv</td><td>{RUNNING_CRAWLER_NA}</td></tr>
          <tr><td class="title">EUNE Crawler aktiv</td><td>{RUNNING_CRAWLER_EUNE}</td></tr>
+         <tr>
+            <td colspan="2" style="background: rgba(247, 247, 247, 1);">
+                <div class="region_matches_count">{MATCHES_COUNT_EUW} EUW-Matches</div>
+                <div class="region_matches_count">{MATCHES_COUNT_NA} NA-Matches</div>
+                <div class="region_matches_count">{MATCHES_COUNT_EUNE} EUNE-Matches</div>
+                <div style="clear:both;"></div>
+            </td>
+         </tr>
       </table>
 	</div>
 </div>
