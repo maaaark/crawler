@@ -108,6 +108,7 @@ if(isset($_GET["settings"])){
    $template->assign("RUNNING_CRAWLER_COUNT", getRunningCount());
    $template->assign("RUNNING_CRAWLER_EUW", getRunningRegion("euw"));
    $template->assign("RUNNING_CRAWLER_NA", getRunningRegion("na"));
+   $template->assign("RUNNING_CRAWLER_EUNE", getRunningRegion("eune"));
    $template->assign("SITE_TITLE", "League Spider &Uuml;bersicht");
    $tmpl = $template->display(true);
    $tmpl = $template->operators();
