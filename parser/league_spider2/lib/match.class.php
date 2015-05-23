@@ -14,7 +14,7 @@ class Match {
 	public function analyse(){
 		$content = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?api_key=".RIOT_KEY);
 		if(check_curl($content)){
-			$json    = json_decode($content["result"], true);
+			$json    = json_decode($content["result"], true);		
 			
 			// Spieler laden
 			if(isset($json["participants"])){
@@ -25,6 +25,9 @@ class Match {
 			
 			// Bans laden
 			$this->analyse_bans($json);
+			
+			// Summoner-Spells laden
+			$this->analyse_summoner_spells($json);
 			
 			// Unbekannte Summoner-IDs speichern
 			$this->fetch_new_summoner($json);
@@ -69,6 +72,40 @@ class Match {
 				}
 			}
 		}
+	}
+	
+	private function analyse_summoner_spells($json){
+      if(isset($json["participants"]) && is_array($json["participants"])){
+         foreach($json["participants"] as $player){
+            if(isset($player["spell1Id"]) && isset($player["spell2Id"]) && isset($player["championId"])){
+               $check = "SELECT * FROM lol_champions_stats_summonerspells WHERE patch    = '".GAME_VERSION."' AND
+                                                                                region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND
+                                                                                champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."' AND
+                                                                                spell1   = '".$GLOBALS["db"]->real_escape_string($player["spell1Id"])."' AND
+                                                                                spell2   = '".$GLOBALS["db"]->real_escape_string($player["spell2Id"])."'
+                                                                                OR
+                                                                                patch    = '".GAME_VERSION."' AND
+                                                                                region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND
+                                                                                champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."' AND
+                                                                                spell2   = '".$GLOBALS["db"]->real_escape_string($player["spell1Id"])."' AND
+                                                                                spell1   = '".$GLOBALS["db"]->real_escape_string($player["spell2Id"])."'";
+               $data = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query($check));
+               
+               if(isset($data["id"]) && $data["id"] > 0 && isset($data["count"])){
+                  $new_count = intval($data["count"]) + 1;
+                  $sql       = "UPDATE lol_champions_stats_summonerspells SET count = '".$GLOBALS["db"]->real_escape_string($new_count)."' WHERE id = '".$GLOBALS["db"]->real_escape_string($data["id"])."'";
+               } else {
+                  $sql       = "INSERT INTO lol_champions_stats_summonerspells SET count = '1',
+                                                                                   spell1 = '".$GLOBALS["db"]->real_escape_string($player["spell1Id"])."',
+                                                                                   spell2 = '".$GLOBALS["db"]->real_escape_string($player["spell2Id"])."',
+                                                                                   patch  = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."',
+                                                                                   region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+                                                                                   champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'";
+               }
+               $GLOBALS["db"]->query($sql);
+            }
+         }
+      }
 	}
 
 	private function fetch_new_summoner($json){
