@@ -78,6 +78,12 @@ class Match {
       if(isset($json["participants"]) && is_array($json["participants"])){
          foreach($json["participants"] as $player){
             if(isset($player["spell1Id"]) && isset($player["spell2Id"]) && isset($player["championId"])){
+               if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] > 0){
+                  $winner = 1;
+               } else {
+                  $winner = 0;
+               }
+               
                $check = "SELECT * FROM lol_champions_stats_summonerspells WHERE patch    = '".GAME_VERSION."' AND
                                                                                 region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND
                                                                                 champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."' AND
@@ -93,13 +99,14 @@ class Match {
                
                if(isset($data["id"]) && $data["id"] > 0 && isset($data["count"])){
                   $new_count = intval($data["count"]) + 1;
-                  $sql       = "UPDATE lol_champions_stats_summonerspells SET count = '".$GLOBALS["db"]->real_escape_string($new_count)."' WHERE id = '".$GLOBALS["db"]->real_escape_string($data["id"])."'";
+                  $sql       = "UPDATE lol_champions_stats_summonerspells SET count = '".$GLOBALS["db"]->real_escape_string($new_count)."', wins = '".$GLOBALS["db"]->real_escape_string($data["wins"] + $winner)."' WHERE id = '".$GLOBALS["db"]->real_escape_string($data["id"])."'";
                } else {
                   $sql       = "INSERT INTO lol_champions_stats_summonerspells SET count = '1',
                                                                                    spell1 = '".$GLOBALS["db"]->real_escape_string($player["spell1Id"])."',
                                                                                    spell2 = '".$GLOBALS["db"]->real_escape_string($player["spell2Id"])."',
                                                                                    patch  = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."',
                                                                                    region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+                                                                                   wins   = '".$GLOBALS["db"]->real_escape_string($winner)."',
                                                                                    champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'";
                }
                $GLOBALS["db"]->query($sql);
