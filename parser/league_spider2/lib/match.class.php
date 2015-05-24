@@ -183,8 +183,9 @@ class Match {
 	}
 	
 	private function addBan($champion_id, $pick){
-		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_bans WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion_id)."' AND 
-																																				   patch    = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."'"));
+		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_bans WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion_id)."' AND
+                                                                                                                 region   = '".$GLOBALS["db"]->real_escape_string(strtolower(trim($this->region)))."' AND 
+                                                                                                                 patch    = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."'"));
 		if(isset($check["id"]) && $check["id"] > 0){
 			$pick_count 	= $check["ban_".trim($pick)] + 1;
 			$new_ban_count = $check["bans"] + 1;
