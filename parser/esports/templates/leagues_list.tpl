@@ -6,5 +6,6 @@
 	</td>
 	<td>
 		<button onclick="self.location.href='index.php?parser=esports&league={ID}'">Turniere anzeigen</button>
+		<button onclick="self.location.href='index.php?parser=esports&edit_league={ID}'">Liga bearbeiten</button>
 	</td>
 </tr>

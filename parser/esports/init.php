@@ -13,6 +13,8 @@ if(isset($_GET["league"])){
    require_once dirname(__FILE__).'/teams_overview.init.php';
 } elseif(isset($_GET["loadleagues"])){
    require_once dirname(__FILE__).'/loadleagues.init.php';
+} elseif(isset($_GET["teams"])){
+   require_once dirname(__FILE__).'/teams.init.php';
 } elseif(isset($_GET["updateTournamentIDs"])){
    $content = @file_get_contents("http://na.lolesports.com:80/api/league.json?parameters%5Bmethod%5D=all");
 
@@ -56,6 +58,8 @@ if(isset($_GET["league"])){
       addInstantMessage("Esports API hat keinen Content zur&uuml;ckgegeben.", "red");
    }
    header("Location: index.php?parser=esports");
+} elseif(isset($_GET["edit_league"])){
+   require_once dirname(__FILE__).'/edit_league.init.php';
 } else {
    $leagues = "";
    $query   = $GLOBALS["db_fi"]->query("SELECT * FROM esports_league ORDER BY short_name ASC");

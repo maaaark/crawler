@@ -2,6 +2,7 @@
    "name":     "Esports Parser",
    "roles":    ["SUPERADMIN", "NORMAL_USER"],
    "subnavi":  [
-      { "label": "&Uuml;bersicht", "link": "?parser=esports" }
+      { "label": "&Uuml;bersicht", "link": "?parser=esports" },
+      { "label": "Teams", "link": "?parser=esports&teams" }
    ]
 }
