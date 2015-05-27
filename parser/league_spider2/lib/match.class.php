@@ -12,7 +12,7 @@ class Match {
 	}
 	
 	public function analyse(){
-		$content = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?api_key=".RIOT_KEY);
+		$content = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?includeTimeline=true&api_key=".RIOT_KEY);
 		if(check_curl($content)){
 			$json    = json_decode($content["result"], true);		
 			
@@ -28,6 +28,9 @@ class Match {
 			
 			// Summoner-Spells laden
 			$this->analyse_summoner_spells($json);
+			
+			// Skillorder laden
+			$this->analyse_skillorder($json);
 			
 			// Unbekannte Summoner-IDs speichern
 			$this->fetch_new_summoner($json);
@@ -114,6 +117,61 @@ class Match {
          }
       }
 	}
+	
+	private function analyse_skillorder($json){
+        $participants = array();
+        if(isset($json["participants"]) && is_array($json["participants"])){
+            foreach($json["participants"] as $player){
+                $participants[$player["participantId"]] = array();
+                $participants[$player["participantId"]]["champion"]   = $player["championId"];
+                $participants[$player["participantId"]]["skillorder"] = array();
+            }
+        }
+        
+        if(isset($json["timeline"]) && is_array($json["timeline"])){
+            foreach($json["timeline"] as $frame){
+                if(isset($frame) && is_array($frame)){
+                    foreach($frame as $frame_element){
+                        if(isset($frame_element["events"]) && is_array($frame_element["events"])){
+                            foreach($frame_element["events"] as $event){
+                                if(isset($event["eventType"]) && $event["eventType"] == "SKILL_LEVEL_UP"){
+                                    if(isset($event["skillSlot"]) && isset($event["participantId"])){
+                                        $participants[$event["participantId"]]["skillorder"][] = $event["skillSlot"];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        foreach($participants as $player){
+            if(isset($player["champion"]) && isset($player["skillorder"]) && is_array($player["skillorder"]) && count($player["skillorder"]) == 18){ // Nur vollgeskillte Skillungen werten (Level 18)
+                $check_sql  = "SELECT * FROM lol_champions_stats_skillorder WHERE champion = '".$GLOBALS["db"]->real_escape_string($player["champion"])."' AND region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."' AND patch = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."'";
+                foreach($player["skillorder"] as $skill_count => $skill){
+                    $check_sql .= " AND level".trim($skill_count + 1)." = '".$GLOBALS["db"]->real_escape_string($skill)."'";
+                }
+                
+                $check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query($check_sql));
+                if(isset($check["id"]) && $check["id"] > 0){
+                    $new_count = $check["count"] + 1;
+                    $sql       = "UPDATE lol_champions_stats_skillorder SET count = '".$GLOBALS["db"]->real_escape_string($new_count)."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["id"])."'";
+                } else {
+                    $sql      = "INSERT INTO lol_champions_stats_skillorder SET champion = '".$GLOBALS["db"]->real_escape_string($player["champion"])."',
+                                                                                region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+                                                                                patch    = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."',
+                                                                                count    = '1'";
+                    foreach($player["skillorder"] as $skill_count => $skill){
+                        $sql .= ", level".trim($skill_count + 1)." = '".$GLOBALS["db"]->real_escape_string($skill)."'";
+                    }
+                }
+                $GLOBALS["db"]->query($sql);
+            }
+        }
+        
+        //echo "<pre>", print_r($participants), "</pre>";die();
+	}
 
 	private function fetch_new_summoner($json){
 		if(isset($json["participantIdentities"]) && is_array($json["participantIdentities"])){
@@ -183,8 +241,9 @@ class Match {
 	}
 	
 	private function addBan($champion_id, $pick){
-		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_bans WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion_id)."' AND 
-																																				   patch    = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."'"));
+		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_bans WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion_id)."' AND
+                                                                                                                 region   = '".$GLOBALS["db"]->real_escape_string(strtolower(trim($this->region)))."' AND 
+                                                                                                                 patch    = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."'"));
 		if(isset($check["id"]) && $check["id"] > 0){
 			$pick_count 	= $check["ban_".trim($pick)] + 1;
 			$new_ban_count = $check["bans"] + 1;
