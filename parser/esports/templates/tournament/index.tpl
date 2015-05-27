@@ -46,6 +46,7 @@
          <thead>
             <th>ID</th>
             <th>Name</th>
+            <th>Optionen</th>
          </thead>
          <tbody>
             {MATCHES_LIST}

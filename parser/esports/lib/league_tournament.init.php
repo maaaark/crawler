@@ -4,6 +4,8 @@ if(isset($_GET["loadschedule"])){
    include dirname(__FILE__).'/tournament_load_schedule.init.php';
 } elseif(isset($_GET["settings"])){
    include dirname(__FILE__).'/tournament_settings.init.php';
+} elseif(isset($_GET["loadmatch"])){
+   include dirname(__FILE__).'/tournament_load_match.init.php';
 } else {
    $standings = "";
    $query     = $GLOBALS["db_fi"]->query("SELECT * FROM esports_standings WHERE tournament_id = '".$GLOBALS["db_fi"]->real_escape_string($tournament["tournament_id"])."' ORDER by rank ASC");
@@ -37,6 +39,7 @@ if(isset($_GET["loadschedule"])){
          $template->assign("LEAGUE_".strtoupper($column), $value);
       }
       $template->assign("LEAGUE_ID_INTERN", $data["id"]);
+      $template->assign("TOURNAMENT_ID_INTERN", $tournament["id"]);
       
       if(!isset($row["winner"]) || $row["winner"] == false || $row["winner"] == null || $row["winner"] == 0){
          $template->assign("NO_WINNER", "TRUE");
