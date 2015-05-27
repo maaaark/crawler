@@ -45,6 +45,10 @@ class Team {
 					if($sql_type == "update"){
 						$sql .= " WHERE id = '".$GLOBALS["db_fi"]->real_escape_string($check["id"])."'";
 					}
+					
+					if(isset($json["roster"]) && is_array($json["roster"])){
+                  $this->update_players($json["roster"]);
+					}
 
 					$GLOBALS["db_fi"]->query($sql);
 				} else {
@@ -54,5 +58,12 @@ class Team {
 				addInstantMessage("Beim Updaten des Teams #".$this->team_id." ist ein API Fehler aufgetreten.", "red");
 			}
 		}
+	}
+	
+	private function update_players($roster){
+      foreach($roster as $player){
+         $object = new Player($player["playerId"]);
+         $object->short_update($player, $this->team_id);
+      }
 	}
 }
