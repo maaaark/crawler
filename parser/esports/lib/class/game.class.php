@@ -90,6 +90,7 @@ class Game {
          $players = array();
          if(isset($json["players"]) && is_array($json["players"])){
             $players = $json["players"];
+            $this->updatePlayers($players);
          }
          $sql .= ", players = '".$GLOBALS["db_fi"]->real_escape_string(json_encode($players))."'";
          
@@ -99,6 +100,15 @@ class Game {
          //echo $sql;
          //echo "<pre>", print_r($json), "</pre>";
          $GLOBALS["db_fi"]->query($sql);
+      }
+   }
+
+   private function updatePlayers($players){
+      foreach($players as $player){
+         if(isset($player["id"]) && isset($player["photoURL"])){
+            $sql    = "UPDATE esports_player SET pic = '".$GLOBALS["db_fi"]->real_escape_string($player["photoURL"])."' WHERE player_id = '".$GLOBALS["db_fi"]->real_escape_string($player["id"])."'";
+            $update = $GLOBALS["db_fi"]->query($sql);
+         }
       }
    }
 }
