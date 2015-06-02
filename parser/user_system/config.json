@@ -1,6 +1,6 @@
 {
    "type":     "module",
-   "name":     "Benutzersystem",
+   "name":     "Crawler-Benutzer",
    "roles":    ["SUPERADMIN"],
    "subnavi":  [
       { "label": "&Uuml;bersicht", "link": "?module=user_system" }

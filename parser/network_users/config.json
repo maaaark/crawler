@@ -1,0 +1,8 @@
+{
+   "type":     "module",
+   "name":     "Netzwerk Benutzer",
+   "roles":    ["SUPERADMIN", "NORMAL_USER"],
+   "subnavi":  [
+      { "label": "&Uuml;bersicht", "link": "?module=network_users" }
+   ]
+}
