@@ -158,6 +158,10 @@ class Template {
         if(isset($_SESSION["username"])){
             $this->assign("LOGGED_USERNAME", $_SESSION["username"]);
         }
+        
+        if(defined("FLASHIGNITE_URL")){
+            $this->assign("FLASHIGNITE_URL", FLASHIGNITE_URL);
+        }
     }
     
     private function addParserConfig(){
