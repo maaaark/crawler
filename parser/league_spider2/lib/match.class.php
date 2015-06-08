@@ -15,7 +15,8 @@ class Match {
 		$content = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?includeTimeline=true&api_key=".RIOT_KEY);
 		if(check_curl($content)){
 			$json    = json_decode($content["result"], true);		
-			
+			//echo "<pre>", print_r($json), "</pre>";die();
+
 			// Spieler laden
 			if(isset($json["participants"])){
 				foreach($json["participants"] as $player){
@@ -31,6 +32,9 @@ class Match {
 			
 			// Skillorder laden
 			$this->analyse_skillorder($json);
+
+			// Item-Builds laden
+			$this->analyse_item_builds($json);
 			
 			// Unbekannte Summoner-IDs speichern
 			$this->fetch_new_summoner($json);
@@ -171,6 +175,104 @@ class Match {
         }
         
         //echo "<pre>", print_r($participants), "</pre>";die();
+	}
+
+	private function analyse_item_builds($json){
+		$participants = array();
+        if(isset($json["participants"]) && is_array($json["participants"])){
+            foreach($json["participants"] as $player){
+                $participants[$player["participantId"]] = array();
+                $participants[$player["participantId"]]["champion"]    = $player["championId"];
+                $participants[$player["participantId"]]["start_items"] = array();
+                $participants[$player["participantId"]]["final_build"] = array();
+            }
+        }
+
+        // Start-Build laden
+		if(isset($json["timeline"]) && is_array($json["timeline"])){
+            foreach($json["timeline"] as $frame){
+                if(isset($frame) && is_array($frame)){
+                    foreach($frame as $frame_element){
+                        if(isset($frame_element["events"]) && is_array($frame_element["events"])){
+                            foreach($frame_element["events"] as $event){
+                                if(isset($event["eventType"]) && $event["eventType"] == "ITEM_PURCHASED"){
+                                    if(isset($event["itemId"]) && isset($event["participantId"])){
+                                        $participants[$event["participantId"]]["start_items"][] = $event["itemId"];
+                                    }
+                                }
+                            }
+                        	break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // End-Build laden
+        if(isset($json["participants"]) && is_array($json["participants"])){
+        	foreach($json["participants"] as $player){
+        		if(isset($player["stats"])){
+        			$stats = $player["stats"];
+        			for($i = 0; $i <= 7; $i++){
+        				if(isset($stats["item".$i]) && $stats["item".$i] > 0){
+        					$participants[$player["participantId"]]["final_build"][] = $stats["item".$i];
+        				}
+					}
+				}
+        	}
+        }
+
+        foreach($participants as $participant){
+			//$participant["final_build"] = array(1055, 2003, 3031, 1001, 1038, 3342, 3087);
+			echo "<pre>", print_r($participant), "</pre>";
+			if(count($participant["final_build"]) == 7){ // Checken ob es sich wirklich um ein volles Build handelt
+    			$check = $this->check_final_build($participant["final_build"], $participant["champion"]);
+    			print_r($check);
+    			if(isset($check["build_id"]) && isset($check["md5_hash"])){
+    				if($check["build_id"] > 0){
+    					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
+    				} else {
+    					$sql = "INSERT INTO lol_champions_stats_itembuilds SET count    = '1',
+    																		   item0    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][0])."',
+    																		   item1    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][1])."',
+    																		   item2    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][2])."',
+    																		   item3    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][3])."',
+    																		   item4    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][4])."',
+    																		   item5    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][5])."',
+    																		   item6    = '".$GLOBALS["db"]->real_escape_string($participant["final_build"][6])."',
+    																		   champion = '".$GLOBALS["db"]->real_escape_string($participant["champion"])."',
+    																		   patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
+    																		   region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+    																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."'";
+    				}
+    				$GLOBALS["db"]->query($sql);
+    			}
+			}
+        	die();
+        }
+        //echo "<pre>", print_r($participants), "</pre>";die();
+	}
+
+	private function check_final_build($array, $champion){
+		asort($array); // Item-IDs sortieren
+		$temp = array();
+		foreach($array as $el){
+			$temp[]  = $el;
+		}
+		$md5_hash 	 = md5(serialize($temp));
+
+		$build_id 	 = 0;
+		$build_count = 0;
+		$query    	 = $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_itembuilds WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion)."'
+																					         AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
+																					         AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
+																					         AND md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($md5_hash))."'");
+		$data     = $GLOBALS["db"]->fetch_array($query);
+		if(isset($data["id"]) && $data["id"] > 0){
+			$build_id 	 = $data["id"];
+			$build_count = $data["count"];
+		}
+		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash);
 	}
 
 	private function fetch_new_summoner($json){
