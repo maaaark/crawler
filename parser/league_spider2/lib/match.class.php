@@ -189,6 +189,11 @@ class Match {
                 $participants[$player["participantId"]]["champion"]    = $player["championId"];
                 $participants[$player["participantId"]]["start_items"] = array();
                 $participants[$player["participantId"]]["final_build"] = array();
+
+                $participants[$player["participantId"]]["winner"] 	   = 0;
+                if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] && $player["stats"]["winner"] > 0){
+                	$participants[$player["participantId"]]["winner"]  = 1;
+                }
             }
         }
 
@@ -257,15 +262,28 @@ class Match {
 				$check = $this->check_final_build($participant["start_items"], $participant["champion"], "start_build");
 				if($check["build_id"] > 0){
 					$added_start = true;
-					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
+
+					$wins = $check["build_wins"];
+					if(isset($participant["winner"]) && $participant["winner"] == 1){
+						$wins = $wins + 1;
+					}
+					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."',
+																	  wins  = '".$GLOBALS["db"]->real_escape_string($wins)."'
+																WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
 				} else {
 					$added_start = false;
+
+					$wins = $check["build_wins"];
+					if(isset($participant["winner"]) && $participant["winner"] == 1){
+						$wins = $wins + 1;
+					}
 					$sql = "INSERT INTO lol_champions_stats_itembuilds SET count    = '1',
 																		   champion = '".$GLOBALS["db"]->real_escape_string($participant["champion"])."',
 																		   patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
 																		   region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
 																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."',
-																		   type     = '".$GLOBALS["db"]->real_escape_string('start_build')."'";
+																		   type     = '".$GLOBALS["db"]->real_escape_string('start_build')."',
+																		   wins     = '".$GLOBALS["db"]->real_escape_string($wins)."'";
 				    for($i = 0; $i < count($check["temp_arr"]); $i++){
 				    	if($i < 7 && $check["temp_arr"][$i] > 0){
 				    		$added_start = true;
@@ -290,6 +308,7 @@ class Match {
 
 		$build_id 	 = 0;
 		$build_count = 0;
+		$build_wins  = 0;
 		$query    	 = $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_itembuilds WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion)."'
 																					         AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
 																					         AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
@@ -299,8 +318,9 @@ class Match {
 		if(isset($data["id"]) && $data["id"] > 0){
 			$build_id 	 = $data["id"];
 			$build_count = $data["count"];
+			$build_wins  = $data["wins"];
 		}
-		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash, "temp_arr" => $temp);
+		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash, "temp_arr" => $temp, "build_wins" => $build_wins);
 	}
 
 	private function analyse_masteries($json){
@@ -315,13 +335,25 @@ class Match {
 					$check 			= $GLOBALS["db"]->fetch_array($check_query);
 
 					if(isset($check["id"]) && $check["id"] > 0){
-						$sql = "UPDATE lol_champions_stats_masteries SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."' WHERE id = '".$check["id"]."'";
+						$wins = $check["wins"];
+						if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] && $player["stats"]["winner"] > 0){
+							$wins = $check["wins"] + 1;
+						}
+						$sql = "UPDATE lol_champions_stats_masteries SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."',
+																		 wins  = '".$GLOBALS["db"]->real_escape_string($wins)."'
+																   WHERE id    = '".$check["id"]."'";
 					} else {
+						$wins = 0;
+						if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] && $player["stats"]["winner"] > 0){
+							$wins = 1;
+						}
+
 						$sql = "INSERT INTO lol_champions_stats_masteries SET json     	   = '".$GLOBALS["db"]->real_escape_string($masteries_json)."',
 																			  region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
 																			  patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
 																			  champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."',
-																			  count    = '1'";
+																			  count    = '1',
+																			  wins     = '".$GLOBALS["db"]->real_escape_string($wins)."'";
 					}
 					$GLOBALS["db"]->query($sql);
 				}
@@ -340,13 +372,24 @@ class Match {
 																									    AND champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'");
 					$check 		 = $GLOBALS["db"]->fetch_array($check_query);
 					if(isset($check["id"]) && $check["id"] > 0){
-						$sql = "UPDATE lol_champions_stats_runes SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."' WHERE id = '".$check["id"]."'";
+						$wins = $check["wins"];
+						if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] && $player["stats"]["winner"] > 0){
+							$wins = $check["wins"] + 1;
+						}
+						$sql = "UPDATE lol_champions_stats_runes SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."',
+															   		 wins  = '".$GLOBALS["db"]->real_escape_string($wins)."'
+															   WHERE id    = '".$check["id"]."'";
 					} else {
+						$wins = 0;
+						if(isset($player["stats"]) && isset($player["stats"]["winner"]) && $player["stats"]["winner"] && $player["stats"]["winner"] > 0){
+							$wins = 1;
+						}
 						$sql = "INSERT INTO lol_champions_stats_runes SET json     = '".$GLOBALS["db"]->real_escape_string($runes_json)."',
 																		  region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
 																		  patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
 																		  champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."',
-																		  count    = '1'";
+																		  count    = '1',
+																		  wins     = '".$GLOBALS["db"]->real_escape_string($wins)."'";
 					}
 					$GLOBALS["db"]->query($sql);
 				}
