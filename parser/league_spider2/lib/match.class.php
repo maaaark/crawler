@@ -243,7 +243,8 @@ class Match {
     																		   champion = '".$GLOBALS["db"]->real_escape_string($participant["champion"])."',
     																		   patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
     																		   region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
-    																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."'";
+    																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."',
+    																		   type     = '".$GLOBALS["db"]->real_escape_string('final_build')."'";
     				}
     				$GLOBALS["db"]->query($sql);
     			}
