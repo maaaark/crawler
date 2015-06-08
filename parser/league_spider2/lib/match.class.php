@@ -338,6 +338,7 @@ class Match {
 																									    AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
 																									    AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
 																									    AND champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'");
+					$check 		 = $GLOBALS["db"]->fetch_array($check_query);
 					if(isset($check["id"]) && $check["id"] > 0){
 						$sql = "UPDATE lol_champions_stats_runes SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."' WHERE id = '".$check["id"]."'";
 					} else {
