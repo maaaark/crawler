@@ -223,9 +223,9 @@ class Match {
         }
 
         foreach($participants as $participant){
+        	// Final Build speichern
 			if(count($participant["final_build"]) == 7){ // Checken ob es sich wirklich um ein volles Build handelt
     			$check = $this->check_final_build($participant["final_build"], $participant["champion"]);
-    			print_r($check);
     			if(isset($check["build_id"]) && isset($check["md5_hash"])){
     				if($check["build_id"] > 0){
     					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
@@ -247,10 +247,31 @@ class Match {
     				$GLOBALS["db"]->query($sql);
     			}
 			}
+
+			// Start-Build speichern
+			if(isset($participant["start_items"]) && is_array($participant["start_items"])){
+				$check = $this->check_final_build($participant["start_items"], $participant["champion"], "start_build");
+				if($check["build_id"] > 0){
+					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
+				} else {
+					$sql = "INSERT INTO lol_champions_stats_itembuilds SET count    = '1',
+																		   champion = '".$GLOBALS["db"]->real_escape_string($participant["champion"])."',
+																		   patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
+																		   region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."',
+																		   type     = '".$GLOBALS["db"]->real_escape_string('start_build')."'";
+				    for($i = 0; $i < count($check["temp_arr"]); $i++){
+				    	if($i < 7){
+				    		$sql .= ", item".$i." = '".$GLOBALS["db"]->real_escape_string($check["temp_arr"][$i])."'";
+			    		}
+				    }
+				}
+    			$GLOBALS["db"]->query($sql);
+			}
         }
 	}
 
-	private function check_final_build($array, $champion){
+	private function check_final_build($array, $champion, $type = "final_build"){
 		asort($array); // Item-IDs sortieren
 		$temp = array();
 		foreach($array as $el){
@@ -263,13 +284,14 @@ class Match {
 		$query    	 = $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_itembuilds WHERE champion = '".$GLOBALS["db"]->real_escape_string($champion)."'
 																					         AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
 																					         AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
-																					         AND md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($md5_hash))."'");
+																					         AND md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($md5_hash))."'
+																					         AND type     = '".$GLOBALS["db"]->real_escape_string($type)."'");
 		$data     = $GLOBALS["db"]->fetch_array($query);
 		if(isset($data["id"]) && $data["id"] > 0){
 			$build_id 	 = $data["id"];
 			$build_count = $data["count"];
 		}
-		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash);
+		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash, "temp_arr" => $temp);
 	}
 
 	private function fetch_new_summoner($json){
