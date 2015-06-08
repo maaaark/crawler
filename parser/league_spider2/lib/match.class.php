@@ -36,6 +36,12 @@ class Match {
 			// Item-Builds laden
 			$this->analyse_item_builds($json);
 			
+			// Meisterschaften speichern
+			$this->analyse_masteries($json);
+
+			// Runen speichern
+			$this->analyse_runes($json);
+
 			// Unbekannte Summoner-IDs speichern
 			$this->fetch_new_summoner($json);
 
@@ -173,8 +179,6 @@ class Match {
                 $GLOBALS["db"]->query($sql);
             }
         }
-        
-        //echo "<pre>", print_r($participants), "</pre>";die();
 	}
 
 	private function analyse_item_builds($json){
@@ -297,6 +301,56 @@ class Match {
 			$build_count = $data["count"];
 		}
 		return array("build_id" => $build_id, "build_count" => $build_count, "md5_hash" => $md5_hash, "temp_arr" => $temp);
+	}
+
+	private function analyse_masteries($json){
+		if(isset($json["participants"]) && is_array($json["participants"])){
+			foreach($json["participants"] as $player){
+				if(isset($player["masteries"]) && is_array($player["masteries"]) && isset($player["championId"])){
+					$masteries_json = json_encode($player["masteries"]);
+					$check_query 	= $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_masteries WHERE json     = '".$GLOBALS["db"]->real_escape_string($masteries_json)."'
+																										   AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
+																										   AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
+																										   AND champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'");
+					$check 			= $GLOBALS["db"]->fetch_array($check_query);
+
+					if(isset($check["id"]) && $check["id"] > 0){
+						$sql = "UPDATE lol_champions_stats_masteries SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."' WHERE id = '".$check["id"]."'";
+					} else {
+						$sql = "INSERT INTO lol_champions_stats_masteries SET json     	   = '".$GLOBALS["db"]->real_escape_string($masteries_json)."',
+																			  region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+																			  patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
+																			  champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."',
+																			  count    = '1'";
+					}
+					$GLOBALS["db"]->query($sql);
+				}
+			}
+		}
+	}
+
+	private function analyse_runes($json){
+		if(isset($json["participants"]) && is_array($json["participants"])){
+			foreach($json["participants"] as $player){
+				if(isset($player["runes"]) && is_array($player["runes"]) && isset($player["championId"])){
+					$runes_json  = json_encode($player["runes"]);
+					$check_query = $GLOBALS["db"]->query("SELECT * FROM lol_champions_stats_runes WHERE json     	 = '".$GLOBALS["db"]->real_escape_string($runes_json)."'
+																									    AND region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'
+																									    AND patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."'
+																									    AND champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."'");
+					if(isset($check["id"]) && $check["id"] > 0){
+						$sql = "UPDATE lol_champions_stats_runes SET count = '".$GLOBALS["db"]->real_escape_string(($check["count"] + 1))."' WHERE id = '".$check["id"]."'";
+					} else {
+						$sql = "INSERT INTO lol_champions_stats_runes SET json     = '".$GLOBALS["db"]->real_escape_string($runes_json)."',
+																		  region   = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."',
+																		  patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
+																		  champion = '".$GLOBALS["db"]->real_escape_string($player["championId"])."',
+																		  count    = '1'";
+					}
+					$GLOBALS["db"]->query($sql);
+				}
+			}
+		}
 	}
 
 	private function fetch_new_summoner($json){
