@@ -223,8 +223,6 @@ class Match {
         }
 
         foreach($participants as $participant){
-			//$participant["final_build"] = array(1055, 2003, 3031, 1001, 1038, 3342, 3087);
-			echo "<pre>", print_r($participant), "</pre>";
 			if(count($participant["final_build"]) == 7){ // Checken ob es sich wirklich um ein volles Build handelt
     			$check = $this->check_final_build($participant["final_build"], $participant["champion"]);
     			print_r($check);
@@ -249,9 +247,7 @@ class Match {
     				$GLOBALS["db"]->query($sql);
     			}
 			}
-        	die();
         }
-        //echo "<pre>", print_r($participants), "</pre>";die();
 	}
 
 	private function check_final_build($array, $champion){
