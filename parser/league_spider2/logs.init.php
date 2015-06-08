@@ -5,8 +5,8 @@ if(isset($_GET["error_logs"])){
         if(isset($_GET["delete"])){
             if(isset($_POST["log_name"]) && trim($_GET["log_name"]) == trim($_POST["log_name"])){
                 $status = false;
-                if(file_exists("logs/league_spider/error_log/".trim($_GET["log_name"]))){
-                    $status = unlink("logs/league_spider/error_log/".trim($_GET["log_name"]));
+                if(file_exists("logs/league_spider/error_logs/".trim($_GET["log_name"]))){
+                    $status = unlink("logs/league_spider/error_logs/".trim($_GET["log_name"]));
                 }
                 
                 if($status){
@@ -32,8 +32,8 @@ if(isset($_GET["error_logs"])){
                 echo $tmpl;
             }
         } else {
-            if(file_exists("logs/league_spider/error_log/".trim($_GET["log_name"]))){
-                $file = file_get_contents("logs/league_spider/error_log/".trim($_GET["log_name"]));
+            if(file_exists("logs/league_spider/error_logs/".trim($_GET["log_name"]))){
+                $file = file_get_contents("logs/league_spider/error_logs/".trim($_GET["log_name"]));
                 $json = json_decode($file, true);
                 
                 $template = new template;
@@ -57,7 +57,7 @@ if(isset($_GET["error_logs"])){
         }
     } else {
         $list = "";
-        $dir  = opendir("logs/league_spider/error_log/");
+        $dir  = opendir("logs/league_spider/error_logs/");
         while($folder = readdir($dir)){
             if(trim($folder) != "." && trim($folder) != ".." && trim($folder) != ""){
                 $template = new template;
