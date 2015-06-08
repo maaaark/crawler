@@ -57,21 +57,27 @@ if(isset($_GET["error_logs"])){
         }
     } else {
         $list = "";
+        $arr  = array();
         $dir  = opendir("logs/league_spider/error_logs/");
         while($folder = readdir($dir)){
             if(trim($folder) != "." && trim($folder) != ".." && trim($folder) != ""){
-                $template = new template;
-                $template->load("error_logs/list_element");
-                $template->assign("NAME", trim($folder));
-                
-                $name_transform = trim(str_replace(".log.txt", "", str_replace("error.", "", trim($folder))));
-                $date           = date("d.m.Y", strtotime(str_replace("_", "-", substr($name_transform, 0, strpos($name_transform, "__")))));
-                $time           = date("H:i:s", strtotime(str_replace("_", ":", substr($name_transform, strpos($name_transform, "__") + 2))));
-                $template->assign("NAME_TRANSFORM", $name_transform);
-                $template->assign("DATE", $date);
-                $template->assign("TIME", $time);
-                $list .= $template->display();
+                $arr[] = $folder;
             }
+        }
+        asort($arr);
+        
+        foreach($arr as $folder){
+            $template = new template;
+            $template->load("error_logs/list_element");
+            $template->assign("NAME", trim($folder));
+            
+            $name_transform = trim(str_replace(".log.txt", "", str_replace("error.", "", trim($folder))));
+            $date           = date("d.m.Y", strtotime(str_replace("_", "-", substr($name_transform, 0, strpos($name_transform, "__")))));
+            $time           = date("H:i:s", strtotime(str_replace("_", ":", substr($name_transform, strpos($name_transform, "__") + 2))));
+            $template->assign("NAME_TRANSFORM", $name_transform);
+            $template->assign("DATE", $date);
+            $template->assign("TIME", $time);
+            $list .= $template->display();
         }
         
         $template = new template;
