@@ -2,6 +2,11 @@
 
 require_once dirname(__FILE__).'/system/init.php';
 
+$deactivated = false;
+if(isset($deactivated) && $deactivated){
+	die();
+}
+
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
 	set_time_limit(0);
