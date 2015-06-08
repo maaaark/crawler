@@ -252,8 +252,10 @@ class Match {
 			if(isset($participant["start_items"]) && is_array($participant["start_items"])){
 				$check = $this->check_final_build($participant["start_items"], $participant["champion"], "start_build");
 				if($check["build_id"] > 0){
+					$added_start = true;
 					$sql = "UPDATE lol_champions_stats_itembuilds SET count = '".$GLOBALS["db"]->real_escape_string(($check["build_count"]+1))."' WHERE id = '".$GLOBALS["db"]->real_escape_string($check["build_id"])."'";
 				} else {
+					$added_start = false;
 					$sql = "INSERT INTO lol_champions_stats_itembuilds SET count    = '1',
 																		   champion = '".$GLOBALS["db"]->real_escape_string($participant["champion"])."',
 																		   patch    = '".$GLOBALS["db"]->real_escape_string(trim(GAME_VERSION))."',
@@ -261,12 +263,15 @@ class Match {
 																		   md5_hash = '".$GLOBALS["db"]->real_escape_string(trim($check["md5_hash"]))."',
 																		   type     = '".$GLOBALS["db"]->real_escape_string('start_build')."'";
 				    for($i = 0; $i < count($check["temp_arr"]); $i++){
-				    	if($i < 7){
+				    	if($i < 7 && $check["temp_arr"][$i] > 0){
+				    		$added_start = true;
 				    		$sql .= ", item".$i." = '".$GLOBALS["db"]->real_escape_string($check["temp_arr"][$i])."'";
 			    		}
 				    }
 				}
-    			$GLOBALS["db"]->query($sql);
+				if($added_start){
+    				$GLOBALS["db"]->query($sql);
+				}
 			}
         }
 	}
