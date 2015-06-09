@@ -31,7 +31,7 @@
       <h2>Technische-Daten</h2>
       <table class="table">
          <tr><td class="title">Laufende Crawler Prozesse</td><td>{RUNNING_CRAWLER_COUNT}</td></tr>
-         <tr><td class="title">Queue-Mode aktiv</td><td>{if QUEUE_MODE_RUNNING}<span style="color: green;">l&auml;ft</span>{else}<span style="color: red;">nicht aktiv</span>{/if}</td></tr>
+         <tr><td class="title">Queue-Mode aktiv</td><td>{if QUEUE_MODE_RUNNING}<span style="color: green;">l&auml;uft</span>{else}<span style="color: red;">nicht aktiv</span>{/if}</td></tr>
          <tr><td class="title">EUW Crawler aktiv</td><td>{RUNNING_CRAWLER_EUW}</td></tr>
          <tr><td class="title">NA Crawler aktiv</td><td>{RUNNING_CRAWLER_NA}</td></tr>
          <tr><td class="title">EUNE Crawler aktiv</td><td>{RUNNING_CRAWLER_EUNE}</td></tr>
