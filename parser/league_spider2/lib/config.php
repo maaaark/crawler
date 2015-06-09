@@ -29,6 +29,18 @@ if(isset($config_file["summoner_update_waiting"]) && trim($config_file["summoner
    define("SUMMONER_UPDATE_WAITING", 180); 	// Minuten die ein Summoner nach dem letzten laden nicht geupdated wird
 }
 
+if(isset($config_file["queue_matches_limit"]) && trim($config_file["queue_matches_limit"]) != ""){
+   define("QUEUE_MATCHES_LIMIT", intval($config_file["queue_matches_limit"]));
+} else {
+   define("QUEUE_MATCHES_LIMIT", 10); 	// Anzahl der Matches die der Queue Mode auf einmal aktualisiert
+}
+
+if(isset($config_file["queue_summoner_limit"]) && trim($config_file["queue_summoner_limit"]) != ""){
+   define("QUEUE_SUMMONER_LIMIT", intval($config_file["queue_summoner_limit"]));
+} else {
+   define("QUEUE_SUMMONER_LIMIT", 10); 	// Anzahl der Summoner-Histories die aktualisiert werden wenn die Queue leer ist
+}
+
 if(isset($config_file["allowed_leagues"]) && trim($config_file["allowed_leagues"])){
    $allowed_leagues = explode(",", $config_file["allowed_leagues"]);
    for($i = 0; $i < count($allowed_leagues); $i++){
@@ -42,6 +54,13 @@ $allowed_queues  = array(4, 6); 	  		// 4 = Ranked Solo; 6 = 5er Ranked
 
 // League-Spider Modes
 define("LEAGUE_SPIDER_NORMAL_MODE", 1);
+define("LEAGUE_SPIDER_QUEUE_MODE", 2);
+
+if(isset($config_file["league_spider_mode"]) && trim($config_file["league_spider_mode"]) != ""){
+   define("LEAGUE_SPIDER_MODE", trim($config_file["league_spider_mode"]));
+} else {
+   define("LEAGUE_SPIDER_MODE", "normal");
+}
 
 function check_array($array, $value){
 	for($i = 0; $i<count($array); $i++){

@@ -11,12 +11,6 @@
          </div>
          
          <div class="input_element">
-            <div class="title">Summoner Limitierung:</div>
-            <input type="text" name="summoner_limit" value="{SETTINGS_SUMMONER_LIMIT}">
-            <div class="input_hint">0 = kein Limit</div>
-         </div>
-         
-         <div class="input_element">
             <div class="title">Wartezeit nach Summoner aktualisierung:</div>
             <input type="text" name="summoner_update_waiting" value="{SETTINGS_SUMMONER_UPDATE_WAITING}">
             <div class="input_hint">Wartezeit bis dieser Summoner nach einer Aktualisierung wieder aktualisiert wird.</div>
@@ -28,17 +22,24 @@
             <div class="input_hint">Kommagetrennt die Namen der zu durchsuchenden Ligen angeben.</div>
          </div>
          
-         <div class="input_element" style="display: none;">
-            <div style="width: 100%;height: 100px;background: rgba(255,255,255,0.5);position: absolute;box-sizing: border-box;">
-               <div style="text-align: center;padding-top: 40px;text-shadow: 0 0 3px rgba(0,0,0,0.5);">
-                  Wird momentan nicht genutzt.
-                  <div style="font-size: 11px;">Es wird automatisch ein neuer Request gestartet sobald ein Region-Request fertig ist</div>
-               </div>
-            </div>
-            <div class="title">Cronjob Interval:</div>
-            <input type="text" name="cronjob_interval" value="{SETTINGS_CRONJOB_INTERVAL}">
-            <div class="input_hint">Alle X Minuten League Spider aufrufen (Standard ist 3)</div>
+         <div class="input_element">
+            <div class="title">Spider Modus:</div>
+            <select name="league_spider_mode">
+               <option value="normal" {if SETTINGS_LEAGUE_SPIDER_MODE==normal}selected{/if}>Normal Mode</option>
+               <option value="queue" {if SETTINGS_LEAGUE_SPIDER_MODE==queue}selected{/if}>Queue Mode</option>
+            </select>
+            <div class="input_hint">Der zu verwendene Modus zum Crawlen der Ligen.</div>
          </div>
+      
+         <h2>Normal Mode</h2>
+         <div class="input_element">
+            <div class="title">Summoner Limitierung:</div>
+            <input type="text" name="summoner_limit" value="{SETTINGS_SUMMONER_LIMIT}">
+            <div class="input_hint">0 = kein Limit</div>
+         </div>
+      
+         <h2>Queue Mode</h2>
+         Kommt noch
       </div>
       <div class="form-footer">
          <input type="hidden" name="change_league_spider_settings" value="true">

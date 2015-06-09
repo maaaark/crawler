@@ -12,7 +12,7 @@ class Match {
 	}
 	
 	public function analyse(){
-		$content = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?includeTimeline=true&api_key=".RIOT_KEY);
+		$content = curl_file(LeagueSpider::getRegion($this->region)."/api/lol/".trim(strtolower($this->region))."/v2.2/match/".trim($this->match_id)."?includeTimeline=true&api_key=".RIOT_KEY);
 		if(check_curl($content)){
 			$json    = json_decode($content["result"], true);		
 			//echo "<pre>", print_r($json), "</pre>";die();

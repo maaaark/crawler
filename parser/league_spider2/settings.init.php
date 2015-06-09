@@ -23,6 +23,10 @@ if(isset($_POST["change_league_spider_settings"])){
       $array["cronjob_interval"] = $_POST["cronjob_interval"];
    }
    
+   if(isset($_POST["league_spider_mode"])){
+      $array["league_spider_mode"] = $_POST["league_spider_mode"];
+   }
+   
    $write_config = @file_put_contents("logs/league_spider/settings.conf", json_encode($array));
    
    if(isset($write_config) && $write_config){
@@ -40,6 +44,7 @@ if(isset($_POST["change_league_spider_settings"])){
    $template->assign("SETTINGS_SUMMONER_UPDATE_WAITING", SUMMONER_UPDATE_WAITING);
    $template->assign("SETTINGS_CRONJOB_INTERVAL", CRONJOB_INTERVAL);
    $template->assign("SETTINGS_ALLOWED_LEAGUES", implode(",", $allowed_leagues));
+   $template->assign("SETTINGS_LEAGUE_SPIDER_MODE", LEAGUE_SPIDER_MODE);
 
    $template->assign("SITE_TITLE", "League Spider Einstellungen");
    $tmpl = $template->display(true);

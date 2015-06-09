@@ -16,7 +16,7 @@ class FeaturedGames {
     public function fetch_new_summoner(){
         $this->logger->log("Fetch New Summoner started");
         
-        $curl = curl_file(API_REGION."/observer-mode/rest/featured?api_key=".RIOT_KEY);
+        $curl = curl_file(LeagueSpider::getRegion($this->region)."/observer-mode/rest/featured?api_key=".RIOT_KEY);
         if(check_curl($curl)){
             $this->logger->log("Curl success Features Games");
             
@@ -45,7 +45,7 @@ class FeaturedGames {
                 }
                 
                 if($player_names != ""){
-                    $curl = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v1.4/summoner/by-name/".trim($player_names)."?api_key=".RIOT_KEY);
+                    $curl = curl_file(LeagueSpider::getRegion($this->region)."/api/lol/".trim(strtolower($this->region))."/v1.4/summoner/by-name/".trim($player_names)."?api_key=".RIOT_KEY);
                     if(check_curl($curl)){
                         $this->logger->log("Curl success summoner-ids");
                         $summoner_ids = "";
@@ -77,7 +77,7 @@ class FeaturedGames {
     }
     
     private function check_summoner_ids_league($summoner_ids){
-        $curl = curl_file(API_REGION."/api/lol/".trim(strtolower($this->region))."/v2.5/league/by-summoner/".trim($summoner_ids)."/entry?api_key=".RIOT_KEY);
+        $curl = curl_file(LeagueSpider::getRegion($this->region)."/api/lol/".trim(strtolower($this->region))."/v2.5/league/by-summoner/".trim($summoner_ids)."/entry?api_key=".RIOT_KEY);
         if(check_curl($curl)){
             $json = json_decode($curl["result"], true);
             
