@@ -41,8 +41,10 @@ class QueueMode {
             $count = $count + $this->getMatches($row->id, $row->region);
          }
          $this->logger->log("Filled the queue with ".$count." new match-ids");
+         $this->logger->set_final_message("Filled the queue with ".$count." new match-ids");
       } else {
          $this->logger->log("Fetched new Summoner -> stop here");
+         $this->logger->set_final_message("Fetched new Summoner -> stop here");
       }
    }
    
