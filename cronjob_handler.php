@@ -9,7 +9,7 @@ if(isset($deactivated) && $deactivated){
 
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
-	set_time_limit(0);
+	set_time_limit(60 * 9);
 
 	if(isset($_GET) && isset($_GET["internal_request"])){
 		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
