@@ -39,7 +39,7 @@ if(file_exists(ROOT_DIR."/logs/league_spider/running/".$load_region."_running.tx
 	$diff       	 = abs(strtotime($date2) - strtotime($date1));
 	$mins        	 = floor($diff / 60);
 	
-	if($mins > 5){ // Wenn diese Region schon seit 5 Minuten geblockt ist: freischalten
+	if($mins > 10){ // Wenn diese Region schon seit 5 Minuten geblockt ist: freischalten
 		$crawl_enabled = true;
 	}
 }
