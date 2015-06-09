@@ -27,6 +27,14 @@ if(isset($_POST["change_league_spider_settings"])){
       $array["league_spider_mode"] = $_POST["league_spider_mode"];
    }
    
+   if(isset($_POST["queue_matches_limit"])){
+      $array["queue_matches_limit"] = $_POST["queue_matches_limit"];
+   }
+   
+   if(isset($_POST["queue_summoner_limit"])){
+      $array["queue_summoner_limit"] = $_POST["queue_summoner_limit"];
+   }
+   
    $write_config = @file_put_contents("logs/league_spider/settings.conf", json_encode($array));
    
    if(isset($write_config) && $write_config){
@@ -45,6 +53,9 @@ if(isset($_POST["change_league_spider_settings"])){
    $template->assign("SETTINGS_CRONJOB_INTERVAL", CRONJOB_INTERVAL);
    $template->assign("SETTINGS_ALLOWED_LEAGUES", implode(",", $allowed_leagues));
    $template->assign("SETTINGS_LEAGUE_SPIDER_MODE", LEAGUE_SPIDER_MODE);
+   
+   $template->assign("SETTINGS_QUEUE_MATCHES_LIMIT", QUEUE_MATCHES_LIMIT);
+   $template->assign("SETTINGS_QUEUE_SUMMONER_LIMIT", QUEUE_SUMMONER_LIMIT);
 
    $template->assign("SITE_TITLE", "League Spider Einstellungen");
    $tmpl = $template->display(true);

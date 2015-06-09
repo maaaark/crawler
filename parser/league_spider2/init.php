@@ -117,6 +117,11 @@ if(isset($_GET["settings"])){
       }
       return 0;
    }
+   
+   if(file_exists("logs/league_spider/running/queue_mode_running.txt")){
+      $template->assign("QUEUE_MODE_RUNNING", "TRUE");
+   }
+   
    $template->assign("MATCHES_COUNT_EUW", getRegionMatchesCount("euw"));
    $template->assign("MATCHES_COUNT_NA", getRegionMatchesCount("na"));
    $template->assign("MATCHES_COUNT_EUNE", getRegionMatchesCount("eune"));

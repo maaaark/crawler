@@ -39,7 +39,17 @@
          </div>
       
          <h2>Queue Mode</h2>
-         Kommt noch
+         <div class="input_element">
+            <div class="title">Matches Limit:</div>
+            <input type="text" name="queue_matches_limit" value="{SETTINGS_QUEUE_MATCHES_LIMIT}">
+            <div class="input_hint">Anzahl der Matches die der Queue Mode auf einmal aktualisiert</div>
+         </div>
+         
+         <div class="input_element">
+            <div class="title">Summoner Limit:</div>
+            <input type="text" name="queue_summoner_limit" value="{SETTINGS_QUEUE_SUMMONER_LIMIT}">
+            <div class="input_hint">Anzahl der Summoner-Histories die aktualisiert werden wenn die Queue leer ist</div>
+         </div>
       </div>
       <div class="form-footer">
          <input type="hidden" name="change_league_spider_settings" value="true">
