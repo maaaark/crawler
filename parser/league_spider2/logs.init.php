@@ -88,6 +88,18 @@ if(isset($_GET["error_logs"])){
         $tmpl = $template->operators();
         echo $tmpl;
     }
+} elseif(isset($_GET["delete_success_log"])){
+   $delete = false;
+   if(file_exists("logs/league_spider/success.log.txt")){
+      $delete = @unlink("logs/league_spider/success.log.txt");
+   }
+
+   if($delete){
+      addInstantMessage("Der League-Spider Log wurde erfolgreich geleert.", "green");
+   } else {
+      addInstantMessage("Der League-Spider Log konnte nicht geleert werden.", "red");
+   }
+   header("Location: index.php?parser=league_spider2&logger");
 } else {
    $template = new template;
    $template->load("logs");
