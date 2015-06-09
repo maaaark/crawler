@@ -23,6 +23,7 @@ class QueueMode {
                                                                      AND region   = '".$GLOBALS["db"]->real_escape_string($game->region)."'");
          }
          $this->logger->log("Succesfully analysed ".$count." new matches");
+         $this->logger->set_final_message("Succesfully analysed ".$count." new matches");
          
       } else {
          $status = $this->fill_queue();

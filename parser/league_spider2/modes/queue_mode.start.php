@@ -37,6 +37,17 @@ if($crawl_enabled == false){
 		echo "<pre>";print_r($log);echo "</pre>";
 	}
 	
+	$input = date('Y-m-d H:i:s');
+	$datei = fopen(ROOT_DIR."/logs/league_spider/last_update.log.txt","w+");
+	rewind($datei);
+	fwrite($datei, $input);
+	fclose($datei);
+
+	$datei = fopen(ROOT_DIR."/logs/league_spider/success.log.txt","a+");
+	rewind($datei);
+	fwrite($datei, $log["final_message"]."\n");
+	fclose($datei);
+	
 	if($log["error_count"] > 0){
 		$datei = fopen(ROOT_DIR."/logs/league_spider/error_logs/error.".date('Y_m_d__h_i_s').".log.txt","w+");
 		rewind($datei);
