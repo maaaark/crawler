@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/system/init.php';
 
-$deactivated = false;
+//$deactivated = true;
 if(isset($deactivated) && $deactivated){
 	die();
 }
