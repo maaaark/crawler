@@ -9,24 +9,27 @@ if(isset($deactivated) && $deactivated){
 
 // $argv für konsolen anwendungen: beispiel start: php cronjob_handler.php internal_request euw
 if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(strtolower($argv[1])) == "internal_request"){
+	$time_start = microtime(true); 
 	set_time_limit(60 * 9);
+	$running_id = time()."_".randomString(5).".crawler";
 
 	if(isset($_GET) && isset($_GET["internal_request"])){
-		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))."\n";
+		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. GET: ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($_GET, true))), 0, -1))." - ".$running_id."\n";
 	} else {
-		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. ARGV = ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($argv, true))), 0, -1))."\n";
+		$input = date("H:i:s d.m.Y").": Cronjob-Handler (cronjob_handler.php) aufgerufen. ARGV = ".trim(substr(str_replace("Array(", "", str_replace("\n", "", print_r($argv, true))), 0, -1))." - ".$running_id."\n";
 	}
+	
 	$datei = fopen(ROOT_DIR."/logs/cronjob.log.txt","a+");
 	rewind($datei);
 	fwrite($datei, $input);
 	fclose($datei);
 
-	$running_id = time()."_".randomString(5).".crawler";
 	$input = date('Y-m-d H:i:s')."; PID: ".getmypid();
 	$datei = fopen(ROOT_DIR."/logs/league_spider/running/".$running_id,"w+");
 	rewind($datei);
 	fwrite($datei, $input);
 	fclose($datei);
+
 
 	// Neue League-Spider
 	require_once ROOT_DIR.'/parser/league_spider2/parser.init.php';
@@ -40,6 +43,15 @@ if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(s
 			echo "<br/>Process-Data: deleted #".$running_id;
 		}
 	}
+
+	$time_end 		= microtime(true);
+	$execution_time = ($time_end - $time_start);
+	$input          = "Prozess beendet: ".$running_id." - Zeit: ".round($execution_time, 2)." Sekunden";
+	$datei = fopen(ROOT_DIR."/logs/cronjob.log.txt","a+");
+	rewind($datei);
+	fwrite($datei, $input);
+	fclose($datei);
+	
 
 } elseif(isset($_GET["internal_request2"])){
 	/*// Alter League-Spider Crawler
