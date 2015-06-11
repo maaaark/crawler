@@ -30,9 +30,9 @@ if(isset($_GET["settings"])){
       }
    }
    $template->assign("MATCHES_CURRENT_PATCH", number_format($matches_nums, 0, ",", "."));
-   $template->assign("MATCHES_COUNT_EUW", $matches_nums_euw);
-   $template->assign("MATCHES_COUNT_NA", $matches_nums_na);
-   $template->assign("MATCHES_COUNT_EUNE", $matches_nums_eune);
+   $template->assign("MATCHES_COUNT_EUW", number_format($matches_nums_euw, 0, ",", "."));
+   $template->assign("MATCHES_COUNT_NA", number_format($matches_nums_na, 0, ",", "."));
+   $template->assign("MATCHES_COUNT_EUNE", number_format($matches_nums_eune, 0, ",", "."));
 
    $summoner_num = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_summoner"));
    $template->assign("POSSIBLE_SUMMONERS", number_format($summoner_num["COUNT(*)"], 0, ",", "."));
