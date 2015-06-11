@@ -46,7 +46,7 @@ class Match {
 			$this->fetch_new_summoner($json);
 
 			// Match speichern
-			$GLOBALS["db"]->query("INSERT INTO lol_league_parser_matches SET id = '".trim($this->match_id)."', patch = '".GAME_VERSION."', region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'");
+			$GLOBALS["db"]->query("INSERT INTO lol_league_parser_matches SET id = '".trim($this->match_id)."', region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'");
 			return true;
 		}
 		// Wenn man bis hierhin kommt: Fehler
