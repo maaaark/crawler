@@ -46,7 +46,7 @@ if(isset($_GET["internal_request"]) || isset($argv) && isset($argv[1]) && trim(s
 
 	$time_end 		= microtime(true);
 	$execution_time = ($time_end - $time_start);
-	$input          = "Prozess beendet: ".$running_id." - Zeit: ".round($execution_time, 2)." Sekunden";
+	$input          = "Prozess beendet: ".$running_id." - Zeit: ".round($execution_time, 2)." Sekunden\n";
 	$datei = fopen(ROOT_DIR."/logs/cronjob.log.txt","a+");
 	rewind($datei);
 	fwrite($datei, $input);
