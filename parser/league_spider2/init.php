@@ -13,11 +13,26 @@ if(isset($_GET["settings"])){
    $template->assign("LEAGUE_SPIDER_GAME_VERSION", GAME_VERSION);
 
    $matches_nums        = 0;
-   $matches_count_query = $GLOBALS["db"]->query("SELECT matches_count FROM lol_champions_stats WHERE patch = '".GAME_VERSION."'");
+   $matches_nums_euw    = 0;
+   $matches_nums_na     = 0;
+   $matches_nums_eune   = 0;
+   $matches_count_query = $GLOBALS["db"]->query("SELECT matches_count, region FROM lol_champions_stats WHERE patch = '".GAME_VERSION."'");
    while($row = $GLOBALS["db"]->fetch_object($matches_count_query)){
       $matches_nums = $matches_nums + ($row->matches_count / 10);
+      if($row->region == "euw"){
+         $matches_nums_euw = $matches_nums_euw + ($row->matches_count / 10);
+      }
+      elseif($row->region == "na"){
+         $matches_nums_na = $matches_nums_na + ($row->matches_count / 10);
+      }
+      elseif($row->region == "eune"){
+         $matches_nums_eune = $matches_nums_eune + ($row->matches_count / 10);
+      }
    }
    $template->assign("MATCHES_CURRENT_PATCH", number_format($matches_nums, 0, ",", "."));
+   $template->assign("MATCHES_COUNT_EUW", $matches_nums_euw);
+   $template->assign("MATCHES_COUNT_NA", $matches_nums_na);
+   $template->assign("MATCHES_COUNT_EUNE", $matches_nums_eune);
 
    $summoner_num = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_summoner"));
    $template->assign("POSSIBLE_SUMMONERS", number_format($summoner_num["COUNT(*)"], 0, ",", "."));
@@ -114,21 +129,9 @@ if(isset($_GET["settings"])){
    $template->assign("RUNNING_CRAWLER_NA", getRunningRegion("na"));
    $template->assign("RUNNING_CRAWLER_EUNE", getRunningRegion("eune"));
    
-   function getRegionMatchesCount($region){
-      $data  = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_matches WHERE patch = '".$GLOBALS["db"]->real_escape_string(GAME_VERSION)."' AND region = '".$GLOBALS["db"]->real_escape_string(trim($region))."'"));
-      if(isset($data["COUNT(*)"]) && $data["COUNT(*)"] > 0){
-          return format_number($data["COUNT(*)"], 1);
-      }
-      return 0;
-   }
-   
    if(file_exists("logs/league_spider/running/queue_mode_running.txt")){
       $template->assign("QUEUE_MODE_RUNNING", "TRUE");
    }
-   
-   $template->assign("MATCHES_COUNT_EUW", getRegionMatchesCount("euw"));
-   $template->assign("MATCHES_COUNT_NA", getRegionMatchesCount("na"));
-   $template->assign("MATCHES_COUNT_EUNE", getRegionMatchesCount("eune"));
    
    $template->assign("SITE_TITLE", "League Spider &Uuml;bersicht");
    $tmpl = $template->display(true);
