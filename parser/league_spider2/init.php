@@ -12,8 +12,12 @@ if(isset($_GET["settings"])){
    $template->load("index");
    $template->assign("LEAGUE_SPIDER_GAME_VERSION", GAME_VERSION);
 
-   $matches_nums = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_matches WHERE patch = '".GAME_VERSION."'"));
-   $template->assign("MATCHES_CURRENT_PATCH", number_format($matches_nums["COUNT(*)"], 0, ",", "."));
+   $matches_nums        = 0;
+   $matches_count_query = $GLOBALS["db"]->query("SELECT matches_count FROM lol_champions_stats WHERE patch = '".GAME_VERSION."'");
+   while($row = $GLOBALS["db"]->fetch_object($matches_count_query)){
+      $matches_nums = $matches_nums + ($row->matches_count / 10);
+   }
+   $template->assign("MATCHES_CURRENT_PATCH", number_format($matches_nums, 0, ",", "."));
 
    $summoner_num = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT COUNT(*) FROM lol_league_parser_summoner"));
    $template->assign("POSSIBLE_SUMMONERS", number_format($summoner_num["COUNT(*)"], 0, ",", "."));
