@@ -34,6 +34,12 @@ if(isset($_POST["change_league_spider_settings"])){
    if(isset($_POST["queue_summoner_limit"])){
       $array["queue_summoner_limit"] = $_POST["queue_summoner_limit"];
    }
+
+   if(isset($_POST["save_new_summoner"]) && $_POST["save_new_summoner"] == "true"){
+      $array["save_new_summoner"] = true;
+   } else {
+      $array["save_new_summoner"] = false;
+   }
    
    $write_config = @file_put_contents("logs/league_spider/settings.conf", json_encode($array));
    
@@ -56,6 +62,8 @@ if(isset($_POST["change_league_spider_settings"])){
    
    $template->assign("SETTINGS_QUEUE_MATCHES_LIMIT", QUEUE_MATCHES_LIMIT);
    $template->assign("SETTINGS_QUEUE_SUMMONER_LIMIT", QUEUE_SUMMONER_LIMIT);
+
+   $template->assign("SETTINGS_SAVE_NEW_SUMMONER", SAVE_NEW_SUMMONER);
 
    $template->assign("SITE_TITLE", "League Spider Einstellungen");
    $tmpl = $template->display(true);

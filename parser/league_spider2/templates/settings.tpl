@@ -21,6 +21,15 @@
             <input type="text" name="allowed_leagues" value="{SETTINGS_ALLOWED_LEAGUES}">
             <div class="input_hint">Kommagetrennt die Namen der zu durchsuchenden Ligen angeben.</div>
          </div>
+
+         <div class="input_element">
+            <div class="title">Neue Summoner speichern:</div>
+            <select name="save_new_summoner">
+               <option value="true" {if SETTINGS_SAVE_NEW_SUMMONER}selected{/if}>Ja</option>
+               <option value="false" {if SETTINGS_SAVE_NEW_SUMMONER}{else}selected{/if}>Nein</option>
+            </select>
+            <div class="input_hint">Sollen neue Summoner-IDs gespeichert werden, die man über die einzelnen Matche und Mathhistories erhält.</div>
+         </div>
          
          <div class="input_element">
             <div class="title">Spider Modus:</div>

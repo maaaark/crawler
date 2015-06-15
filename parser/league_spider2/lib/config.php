@@ -41,6 +41,12 @@ if(isset($config_file["queue_summoner_limit"]) && trim($config_file["queue_summo
    define("QUEUE_SUMMONER_LIMIT", 10); 	// Anzahl der Summoner-Histories die aktualisiert werden wenn die Queue leer ist
 }
 
+if(Isset($config_file["save_new_summoner"]) && $config_file["save_new_summoner"] == false){
+   define("SAVE_NEW_SUMMONER", false);
+} else {
+   define("SAVE_NEW_SUMMONER", true);
+}
+
 if(isset($config_file["allowed_leagues"]) && trim($config_file["allowed_leagues"])){
    $allowed_leagues = explode(",", $config_file["allowed_leagues"]);
    for($i = 0; $i < count($allowed_leagues); $i++){
