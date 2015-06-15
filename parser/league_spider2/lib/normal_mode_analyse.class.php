@@ -40,7 +40,7 @@ class NormalModeAnalyse {
 	}
 
 	private function handleMatch($match_id){
-		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT * FROM lol_league_parser_matches WHERE id = '".$GLOBALS["db"]->real_escape_string($match_id)."'"));
+		$check = $GLOBALS["db"]->fetch_array($GLOBALS["db"]->query("SELECT id FROM lol_league_parser_matches WHERE id = '".$GLOBALS["db"]->real_escape_string(trim($match_id))."' AND region = '".$GLOBALS["db"]->real_escape_string(trim(strtolower($this->region)))."'"));
 		if(isset($check["id"]) && $check["id"] > 0){
 			// Match bereits analysiert:
 			return false;
