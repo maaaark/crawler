@@ -34,13 +34,13 @@ class Match {
 			$this->analyse_skillorder($json);
 
 			// Item-Builds laden
-			$this->analyse_item_builds($json);
+			//$this->analyse_item_builds($json);
 			
 			// Meisterschaften speichern
-			$this->analyse_masteries($json);
+			//$this->analyse_masteries($json);
 
 			// Runen speichern
-			$this->analyse_runes($json);
+			//$this->analyse_runes($json);
 
 			// Unbekannte Summoner-IDs speichern
             if(SAVE_NEW_SUMMONER){
