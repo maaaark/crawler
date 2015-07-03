@@ -27,7 +27,7 @@ if(($api_key_check = check_api_key()) && isset($api_key_check["verify_status"]) 
             $temp["tournament_data"] = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM esports_tournament WHERE tournament_id = '".$GLOBALS["db_fi"]->real_escape_string($arr_temp["tournament_id"])."'"));
             
             $temp["team1_data"]      = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM esports_team WHERE team_id = '".$GLOBALS["db_fi"]->real_escape_string($arr_temp["team1_id"])."'"));
-            $temp["team2_data"]      = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM esports_team WHERE team_id = '".$GLOBALS["db_fi"]->real_escape_string($arr_temp["team1_id"])."'"));
+            $temp["team2_data"]      = $GLOBALS["db_fi"]->fetch_array($GLOBALS["db_fi"]->query("SELECT * FROM esports_team WHERE team_id = '".$GLOBALS["db_fi"]->real_escape_string($arr_temp["team2_id"])."'"));
             $return[] = $temp;
         }
     } else {
