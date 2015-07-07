@@ -3,6 +3,7 @@
    "roles":    ["SUPERADMIN", "NORMAL_USER"],
    "subnavi":  [
       { "label": "&Uuml;bersicht", "link": "?parser=esports" },
-      { "label": "Teams", "link": "?parser=esports&teams" }
+      { "label": "Teams", "link": "?parser=esports&teams" },
+      { "label": "Statistiken", "link": "?parser=esports&statistics" }
    ]
 }
